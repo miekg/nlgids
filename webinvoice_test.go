@@ -1,7 +1,6 @@
 package nlgids
 
 import (
-	"os"
 	"path"
 	"testing"
 
@@ -9,7 +8,7 @@ import (
 	"github.com/miekg/nlgids/webinvoice"
 )
 
-const templateDir = "tmpls"
+const templateDir = "/opt/tmpl/nlgids"
 
 func newInvoice() *webinvoice.Invoice {
 	return &webinvoice.Invoice{
@@ -45,30 +44,20 @@ func TestInvoiceFill(t *testing.T) {
 }
 
 func TestTexFiles(t *testing.T) {
-	pwd, err := os.Getwd()
-	if err != nil {
-		t.Fatal(err)
-	}
-	tmplDir := path.Join(pwd, templateDir)
-	sources, err := webinvoice.TeXFiles(tmplDir)
+	sources, err := webinvoice.TeXFiles(templateDir)
 	if err != nil {
 		t.Fatal(err)
 	}
 	if len(sources) == 0 {
-		t.Fatalf("no sources found in %s", tmplDir)
+		t.Fatalf("no sources found in %s", templateDir)
 	}
 }
 
 func TestInvoiceCreate(t *testing.T) {
-	pwd, err := os.Getwd()
-	if err != nil {
-		t.Fatal(err)
-	}
-	tmplDir := path.Join(pwd, templateDir)
-	invoice := path.Join(tmplDir, webinvoice.DefaultTemplate)
+	invoice := path.Join(templateDir, webinvoice.DefaultTemplate)
 
 	i := newInvoice()
-	pdf, err := i.Create(tmplDir, invoice)
+	pdf, err := i.Create(templateDir, invoice)
 	if err != nil {
 		t.Fatal(err)
 	}
