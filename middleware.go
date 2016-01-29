@@ -19,7 +19,6 @@ func Setup(c *setup.Controller) (middleware.Middleware, error) {
 
 type handler struct {
 	Next middleware.Handler
-	//	h.Next.ServeHTTP(w, r)
 }
 
 func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) {
