@@ -2,6 +2,7 @@ package nlgids
 
 import (
 	"bytes"
+	"log"
 	"net/http"
 	"path"
 
@@ -29,9 +30,11 @@ func WebInvoiceTest(w http.ResponseWriter, r *http.Request) (int, error) {
 
 	pdf, err := testInvoice.Create(templateDir, tmpl)
 	if err != nil {
+		log.Printf("%s", err)
 		return http.StatusInternalServerError, err
 	}
 	if len(pdf) == 0 {
+		log.Printf("%s", err)
 		return http.StatusInternalServerError, err
 	}
 	rd := bytes.NewBuffer(pdf)

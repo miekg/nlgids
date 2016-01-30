@@ -39,7 +39,7 @@ func (i *Invoice) Create(tmplDir, tmpl string) ([]byte, error) {
 	}
 	for _, src := range sources {
 		basename := path.Base(src)
-		if err := os.Link(src, path.Join(dst, basename)); err != nil {
+		if err := os.Symlink(src, path.Join(dst, basename)); err != nil {
 			return nil, err
 		}
 	}
@@ -83,9 +83,6 @@ func TeXFiles(dir string) ([]string, error) {
 func pdfLateX(dir, texfile string) ([]byte, error) {
 	cmd := exec.Command("pdflatex", texfile)
 	cmd.Dir = dir
-	// TODO(miek): just for testing, although might be nice to save stderr
-	// cmd.Stdout = os.Stdout
-	// cmd.Stderr = os.Stderr
 
 	if err := cmd.Start(); err != nil {
 		return nil, err

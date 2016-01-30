@@ -8,8 +8,6 @@ import (
 	"github.com/miekg/nlgids/webinvoice"
 )
 
-const templateDir = "/opt/tmpl/nlgids"
-
 func newInvoice() *webinvoice.Invoice {
 	return &webinvoice.Invoice{
 		Tour:     "Van Koninklijke Huize",
