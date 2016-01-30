@@ -9,8 +9,6 @@ import (
 	"github.com/miekg/nlgids/webinvoice"
 )
 
-const templateDir = "/opt/tmpl/nlgids"
-
 func WebInvoiceTest(w http.ResponseWriter, r *http.Request) (int, error) {
 	testInvoice := &webinvoice.Invoice{
 		Tour:     "Van Koninklijke Huize",

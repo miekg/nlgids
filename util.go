@@ -5,6 +5,8 @@ import (
 	"net/http"
 )
 
+const templateDir = "/opt/tmpl/nlgids"
+
 // Download will present a "download" to the user.
 func Download(rd io.Reader, filename string, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Disposition", "attachment; filename="+filename)

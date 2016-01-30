@@ -67,7 +67,7 @@ func TestInvoiceCreate(t *testing.T) {
 		t.Fatal(err)
 	}
 	mail := email.NewInvoice(i.MailSubject(), body, i.FileName, pdf)
-	if mail.Subject != "[NLgids] formulier \"Christel Achternaam\"" {
+	if mail.Subject != "[NLgids] Formulier \"Christel Achternaam\"" {
 		t.Fatal("wrong email Subject")
 	}
 	if mail.From != "nlgids@nlgids.london" {

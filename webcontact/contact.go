@@ -6,7 +6,7 @@ import (
 )
 
 // ContactMail is a customer contact form.
-type ContactMail struct {
+type Contact struct {
 	Name    string
 	Email   string
 	Phone   string
@@ -32,18 +32,11 @@ Met vriendelijke groet,
     NLgids mailer
 `
 
-func MailBody(name string) (*bytes.Buffer, error) {
+func (c *Contact) MailBody() (*bytes.Buffer, error) {
 	t := template.New("Contact template")
 	t, err := t.Parse(templ)
 	if err != nil {
 		return nil, err
-	}
-
-	c := &ContactMail{
-		"Miek Gieben",
-		"miek@miek.nl",
-		"07774 517 566",
-		"Hee, we komen op bezoek!",
 	}
 
 	buf := &bytes.Buffer{}
@@ -53,7 +46,7 @@ func MailBody(name string) (*bytes.Buffer, error) {
 	return buf, nil
 }
 
-func MailSubject(name string) string {
-	subject := "[NLgids] Contact van \""+name+"\""
+func (c *Contact) MailSubject() string {
+	subject := "Contact van \""+c.Name+"\""
 	return subject
 }

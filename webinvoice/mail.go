@@ -34,6 +34,6 @@ func (i *Invoice) MailBody() (*bytes.Buffer, error) {
 }
 
 func (i *Invoice) MailSubject() string {
-	subject := "formulier \"" + i.FullName + "\""
+	subject := "Formulier \"" + i.FullName + "\""
 	return subject
 }

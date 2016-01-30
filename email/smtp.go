@@ -42,7 +42,7 @@ func NewInvoice(subject string, body *bytes.Buffer, pdfName string, pdf []byte) 
 }
 
 // Do sends an email message.
-func Do(msg *Message) error { return Send(server, nil, msg) }
+func (m *Message) Do() error { return Send(server, nil, m) }
 
 // Everything below:
 

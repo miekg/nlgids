@@ -37,6 +37,9 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) 
 	case path.Matches("/api/auth/test"):
 		return WebInvoiceTest(w, r)
 
+	case path.Matches("/api/open/contact/contact"):
+		return WebContactTest(w, r)
+
 	case path.Matches("/api/auth/invoice"):
 		name := r.PostFormValue("name")
 		fmt.Fprintf(w, "auth! %s", name)
