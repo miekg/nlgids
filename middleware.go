@@ -3,7 +3,6 @@ package nlgids
 import (
 	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/mholt/caddy/caddy/setup"
 	"github.com/mholt/caddy/middleware"
@@ -22,20 +21,26 @@ type handler struct {
 }
 
 func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) {
-	// only POST from nlgids.london are handled by this middleware
-	if r.Method != "POST" || !strings.HasPrefix(r.URL.Host, nlgids) {
+	// only POST are handled by this middleware
+	if r.Method != "POST" {
 		return h.Next.ServeHTTP(w, r)
 	}
-	// switch on path /api/path and call the correct function(s)
+
+	path := middleware.Path(r.Path)
+	if !path.Matches("/api") {
+		return h.Next.ServerHTTP(w, r)
+	}
 
 	r.ParseForm()
 
-	name := r.PostFormValue("name")
-	fmt.Fprintf(w, "Hello, %s!", name)
+	switch {
+	case path.Matches("/api/open/contact"):
+		fallthrough
+	case path.Matches("/api/open/booking"):
+		fallthrough
+	case path.Matches("/api/auth/invoice"):
+		name := r.PostFormValue("name")
+		fmt.Fprintf(w, "Hello, %s!", name)
+	}
 	return http.StatusOK, nil
 }
-
-/*
-	w.Write([]byte("Hello, I'm a caddy middleware" + r.URL.Path))
-	w.Write([]byte(r.Method))
-*/
