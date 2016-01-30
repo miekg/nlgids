@@ -11,5 +11,9 @@ install: customCaddy
 	sudo setcap cap_net_bind_service=+ep /opt/bin/customCaddy
 
 .PHONY:
+restart:
+	systemctl restart caddy
+
+.PHONY:
 clean:
 	rm -f customCaddy
