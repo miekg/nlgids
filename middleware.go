@@ -12,7 +12,7 @@ const nlgids = "nlgids.london"
 
 func Setup(c *setup.Controller) (middleware.Middleware, error) {
 	return func(next middleware.Handler) middleware.Handler {
-		return &handler{}
+		return &handler{Next: next}
 	}, nil
 }
 
@@ -26,12 +26,12 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) 
 		return h.Next.ServeHTTP(w, r)
 	}
 
-	path := middleware.Path(r.Path)
+	path := middleware.Path(r.URL.Path)
 	if !path.Matches("/api") {
-		return h.Next.ServerHTTP(w, r)
+		return h.Next.ServeHTTP(w, r)
 	}
-
-	r.ParseForm()
+//	r.ParseForm() // Required if you don't call r.FormValue()
+//      fmt.Println(r.Form["new_data"])
 
 	switch {
 	case path.Matches("/api/open/contact"):

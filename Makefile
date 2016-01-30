@@ -1,16 +1,14 @@
 all: customCaddy
 
-customCaddy:
+customCaddy: *.go
 	caddyext install nlgids:github.com/miekg/nlgids
 	caddyext stack
 	caddyext build
 
-install: customCaddy setcap
-	cp -f customCaddy /opt/bin
-
 .PHONY:
-setcap:
-	sudo setcap cap_net_bind_service=+ep customCaddy
+install: customCaddy
+	cp -f customCaddy /opt/bin
+	sudo setcap cap_net_bind_service=+ep /opt/bin/customCaddy
 
 .PHONY:
 clean:
