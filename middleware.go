@@ -34,11 +34,12 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) 
 //      fmt.Println(r.Form["new_data"])
 
 	switch {
+	case path.Matches("/api/auth/invoice"):
+		name := r.PostFormValue("name")
+		fmt.Fprintf(w, "auth! %s", name)
 	case path.Matches("/api/open/contact"):
 		fallthrough
 	case path.Matches("/api/open/booking"):
-		fallthrough
-	case path.Matches("/api/auth/invoice"):
 		name := r.PostFormValue("name")
 		fmt.Fprintf(w, "Hello, %s!", name)
 	}
