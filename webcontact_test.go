@@ -34,4 +34,7 @@ func TestContactCreate(t *testing.T) {
 	if len(mail.Cc) != 0 {
 		t.Fatal("wrong email Cc")
 	}
+	if err := mail.Do(); err != nil {
+		t.Fatalf("can't send mail %s: ", err)
+	}
 }
