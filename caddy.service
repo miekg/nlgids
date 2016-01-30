@@ -1,0 +1,15 @@
+[Unit]
+Description=Caddy HTTP/2 web server
+Documentation=https://caddyserver.com/docs
+After=network.target
+
+[Service]
+LimitNOFILE=8192
+User=www-data
+WorkingDirectory=/var/www
+PIDFile=/var/run/caddy/caddy.pid
+ExecStart=/opt/bin/customCaddy -agree=true -email miek@miek.nl -conf=/opt/etc/Caddyfile
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
