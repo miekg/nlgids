@@ -30,10 +30,13 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) 
 	if !path.Matches("/api") {
 		return h.Next.ServeHTTP(w, r)
 	}
-//	r.ParseForm() // Required if you don't call r.FormValue()
-//      fmt.Println(r.Form["new_data"])
+	//	r.ParseForm() // Required if you don't call r.FormValue()
+	//      fmt.Println(r.Form["new_data"])
 
 	switch {
+	case path.Matches("/api/auth/test"):
+		return WebInvoiceTest(w, r)
+
 	case path.Matches("/api/auth/invoice"):
 		name := r.PostFormValue("name")
 		fmt.Fprintf(w, "auth! %s", name)

@@ -1,7 +1,7 @@
 package nlgids
 
 import (
-	"bufio"
+	"bytes"
 	"net/http"
 	"path"
 
@@ -10,7 +10,7 @@ import (
 
 const templateDir = "/opt/tmpl/nlgids"
 
-func Test(w http.ResponseWriter, r *http.Request) {
+func WebInvoiceTest(w http.ResponseWriter, r *http.Request) (int, error) {
 	testInvoice := &webinvoice.Invoice{
 		Tour:     "Van Koninklijke Huize",
 		Persons:  2,
@@ -29,14 +29,12 @@ func Test(w http.ResponseWriter, r *http.Request) {
 
 	pdf, err := testInvoice.Create(templateDir, tmpl)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return http.StatusInternalServerError, err
 	}
 	if len(pdf) == 0 {
-		http.Error(w, "no pdf produced", http.StatusInternalServerError)
-		return
+		return http.StatusInternalServerError, err
 	}
-	rd := bufio.NewReader(pdf)
-	Download(rd, i.FileName, w, r)
+	rd := bytes.NewBuffer(pdf)
+	Download(rd, testInvoice.FileName, w, r)
 	return http.StatusOK, nil
 }
