@@ -19,7 +19,7 @@ const (
 var (
 	//to = []string{"ans@nlgids.london", "miek@miek.nl"}
 	to   = []string{"miek@miek.nl"}
-	from = "nlgids@nlgids.london"
+	from = "nlgids@x64.atoom.net"
 )
 
 func NewContact(subject string, body *bytes.Buffer) *Message {
