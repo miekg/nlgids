@@ -44,7 +44,8 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) 
 		name := r.PostFormValue("name")
 		fmt.Fprintf(w, "auth! %s", name)
 	case path.Matches("/api/open/contact"):
-		fallthrough
+		return WebContact(w, r)
+
 	case path.Matches("/api/open/booking"):
 		name := r.PostFormValue("name")
 		fmt.Fprintf(w, "Hello, %s!", name)

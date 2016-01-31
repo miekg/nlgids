@@ -15,8 +15,26 @@ func WebContactTest(w http.ResponseWriter, r *http.Request) (int, error) {
 		Phone:   "07774 517 566",
 		Message: "Hee, hoe is het daar?",
 	}
-	subject := testContact.MailSubject()
-	body, err := testContact.MailBody()
+	return sendContactMail(testContact)
+}
+
+func WebContact(w http.ResponseWriter, r *http.Request) (int, error) {
+	name, email := r.PostFormValue("name"), r.PostFormValue("email")
+	phone, message := r.PostFormValue("phone"), r.PostFormValue("message")
+	// validate and return http.StatusBadRequest
+
+	contact := &webcontact.Contact{
+		Name:    name,
+		Email:   email,
+		Phone:   phone,
+		Message: message,
+	}
+	return sendContactMail(contact)
+}
+
+func sendContactMail(c *webcontact.Contact) (int, error) {
+	subject := c.MailSubject()
+	body, err := c.MailBody()
 	if err != nil {
 		log.Printf("%s", err)
 		return http.StatusInternalServerError, err
