@@ -12,7 +12,7 @@ install: customCaddy
 
 .PHONY:
 restart:
-	systemctl restart caddy
+	sudo systemctl restart caddy
 
 .PHONY:
 clean:

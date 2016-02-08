@@ -1,11 +1,11 @@
 package nlgids
 
 import (
-	"bytes"
 	"log"
 	"net/http"
 	"path"
 
+	"github.com/miekg/nlgids/email"
 	"github.com/miekg/nlgids/webinvoice"
 )
 
@@ -35,7 +35,21 @@ func WebInvoiceTest(w http.ResponseWriter, r *http.Request) (int, error) {
 		log.Printf("%s", err)
 		return http.StatusInternalServerError, err
 	}
-	rd := bytes.NewBuffer(pdf)
-	Download(rd, testInvoice.FileName, w, r)
+	return sendInvoice(testInvoice, pdf)
+}
+
+func sendInvoice(i *webinvoice.Invoice, pdf []byte) (int, error) {
+	subject := i.MailSubject()
+	body, err := i.MailBody()
+	if err != nil {
+		log.Printf("%s", err)
+		return http.StatusInternalServerError, err
+	}
+
+	mail := email.NewInvoice(subject, body, i.FileName, pdf)
+	if err := mail.Do(); err != nil {
+		log.Printf("%s", err)
+		return http.StatusInternalServerError, err
+	}
 	return http.StatusOK, nil
 }

@@ -1,7 +1,6 @@
 package nlgids
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/mholt/caddy/caddy/setup"
@@ -21,7 +20,6 @@ type handler struct {
 }
 
 func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) {
-	// only POST are handled by this middleware
 	if r.Method != "POST" {
 		return h.Next.ServeHTTP(w, r)
 	}
@@ -30,25 +28,18 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) 
 	if !path.Matches("/api") {
 		return h.Next.ServeHTTP(w, r)
 	}
-	//	r.ParseForm() // Required if you don't call r.FormValue()
-	//      fmt.Println(r.Form["new_data"])
 
 	switch {
 	case path.Matches("/api/auth/test"):
 		return WebInvoiceTest(w, r)
 
-	case path.Matches("/api/open/contact/test"):
-		return WebContactTest(w, r)
-
 	case path.Matches("/api/auth/invoice"):
-		name := r.PostFormValue("name")
-		fmt.Fprintf(w, "auth! %s", name)
+
 	case path.Matches("/api/open/contact"):
 		return WebContact(w, r)
 
 	case path.Matches("/api/open/booking"):
-		name := r.PostFormValue("name")
-		fmt.Fprintf(w, "Hello, %s!", name)
+
 	}
 	return http.StatusOK, nil
 }

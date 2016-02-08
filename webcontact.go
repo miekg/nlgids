@@ -3,30 +3,34 @@ package nlgids
 import (
 	"log"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/miekg/nlgids/email"
 	"github.com/miekg/nlgids/webcontact"
 )
 
-func WebContactTest(w http.ResponseWriter, r *http.Request) (int, error) {
-	testContact := &webcontact.Contact{
-		Name:    "Miek Gieben",
-		Email:   "miek@miek.nl",
-		Phone:   "07774 517 566",
-		Message: "Hee, hoe is het daar?",
-	}
-	return sendContactMail(testContact)
-}
-
 func WebContact(w http.ResponseWriter, r *http.Request) (int, error) {
 	name, email := r.PostFormValue("name"), r.PostFormValue("email")
-	phone, message := r.PostFormValue("phone"), r.PostFormValue("message")
-	// validate and return http.StatusBadRequest
+	phone, persons := r.PostFormValue("phone"), r.PostFormValue("persons")
+	message := r.PostFormValue("message")
+	if name == "" || email == "" || message == "" {
+		return http.StatusBadRequest, nil
+	}
+	if !strings.Contains(email, "@") {
+		return http.StatusBadRequest, nil
+	}
+	if persons != "" {
+		if _, err := strconv.Atoi(persons); err != nil {
+			return http.StatusBadRequest, nil
+		}
+	}
 
 	contact := &webcontact.Contact{
 		Name:    name,
 		Email:   email,
 		Phone:   phone,
+		Persons: persons,
 		Message: message,
 	}
 	return sendContactMail(contact)

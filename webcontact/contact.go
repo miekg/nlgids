@@ -10,6 +10,7 @@ type Contact struct {
 	Name    string
 	Email   string
 	Phone   string
+	Persons string
 	Message string
 }
 
@@ -17,8 +18,9 @@ const templ = `Hallo Ans,
 
 Er is een contact formulier ingevuld, met de volgende details:
 
-* Naam..: {{.Name}} ({{.Email}})
-* Tel...: {{.Phone}}
+* Naam......: {{.Name}} ({{.Email}})
+* Tel.......: {{.Phone}}
+* Personen..: {{.Persons}}
 
 En het volgende bericht is achter gelaten:
 
@@ -47,6 +49,6 @@ func (c *Contact) MailBody() (*bytes.Buffer, error) {
 }
 
 func (c *Contact) MailSubject() string {
-	subject := "Contact van \""+c.Name+"\""
+	subject := "Contact van \"" + c.Name + "\""
 	return subject
 }
