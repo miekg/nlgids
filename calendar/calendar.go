@@ -86,6 +86,7 @@ func (c *Calendar) entry(t time.Time) string {
 	case free:
 		date := fmt.Sprintf("%4d-%02d-%02d", t.Year(), t.Month(), t.Day())
 		href = fmt.Sprintf("<a data-toggle=\"modal\" href=\"#formBookingModal\" data-date=\"%s\">%s</a>", date, day)
+		class= fmt.Sprintf("\t<td class=\"%s btn btn-block\">", d)
 	case busy:
 		href = day
 	case past:
