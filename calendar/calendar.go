@@ -27,6 +27,7 @@ func (a Available) String() string { return avail[a] }
 // All date are in the UTC timezone.
 type Calendar struct {
 	days map[time.Time]Available
+	// TODO: add date we are going see, for the month heading at the top of the calendar.
 }
 
 type times []time.Time
@@ -38,6 +39,36 @@ func (t times) Swap(i, j int)      { t[i], t[j] = t[j], t[i] }
 func (c *Calendar) heading() string {
 	// lang!
 	return "<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>\n"
+}
+
+func (c *Calendar) Header() string {
+	// Todo insert links 'n such.
+	return `
+<div class="container">
+<div class="col-md-8 col-md-offset-2">
+
+<div class="panel-heading text-center">
+    <div class="row">
+        <div class="col-md-3 col-xs-4">
+            <a class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </a>
+        </div>
+        <div class="col-md-6 col-xs-4"><strong>bla </strong></div>
+
+        <div class="col-md-3 col-xs-4">
+            <a class="btn btn-default btn-sm" href="">
+                <span class="glyphicon glyphicon-arrow-right"></span>
+            </a>
+        </div>
+    </div>
+</div>`
+}
+
+func (c *Calendar) Footer() string {
+	return `
+</div>
+</div>`
 }
 
 func (c *Calendar) openTR() string  { return "<tr>\n" }
@@ -65,6 +96,15 @@ func (c *Calendar) entry(t time.Time) string {
 }
 
 func (c *Calendar) HTML() string {
+	s := c.Header()
+	s += "<table class=\"table table-bordered\">\n"
+	s += c.html()
+	s += "</table>"
+	s += c.Footer()
+	return s
+}
+
+func (c *Calendar) html() string {
 	keys := times{}
 	for k := range c.days {
 		keys = append(keys, k)
@@ -112,7 +152,7 @@ func New(d string) (*Calendar, error) {
 		}
 	}
 
-	// Loop from i to lastDay and add the month.
+	// Loop from i to lastDay and add the entire month.
 	for i := 1; i <= last.Day(); i++ {
 		day := time.Date(date.Year(), date.Month(), i, 0, 0, 0, 0, time.UTC)
 
