@@ -30,9 +30,12 @@ func (c *Calendar) FreeBusy() error {
 		return err
 	}
 
-	t := time.Now().Format(time.RFC3339)
+	// TimeMax is exclusive, so we need to add another day to c.end to get all the events we want.
+	begin := c.begin.Format(time.RFC3339)
+	end := c.end.AddDate(0, 0, 1).Format(time.RFC3339)
+
 	events, err := srv.Events.List("primary").ShowDeleted(false).
-		SingleEvents(true).TimeMin(t).MaxResults(10).OrderBy("startTime").Do()
+		SingleEvents(true).TimeMin(begin).TimeMax(end).OrderBy("startTime").Do()
 	if err != nil {
 		return err
 	}
@@ -48,6 +51,8 @@ func (c *Calendar) FreeBusy() error {
 			} else {
 				when = i.Start.Date
 			}
+			// for each when and all-day events we set the calendar entry to busy
+			// (if not in the past).
 			fmt.Printf("%s (%s)\n", i.Summary, when)
 		}
 	} else {

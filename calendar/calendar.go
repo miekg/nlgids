@@ -7,7 +7,6 @@ import (
 	"time"
 )
 
-
 // TODO: next button should have a ref to point to something.
 
 var avail = [...]string{"past", "busy", "free"}
@@ -26,8 +25,10 @@ func (a Available) String() string { return avail[a] }
 // day is indexed by the 12 o' clock night time time.Time.
 // All date are in the UTC timezone.
 type Calendar struct {
-	days map[time.Time]Available
-	// TODO: add date we are going see, for the month heading at the top of the calendar.
+	days  map[time.Time]Available
+	begin time.Time
+	end   time.Time
+	// month we're in (mostly)?
 }
 
 type times []time.Time
@@ -43,6 +44,7 @@ func (c *Calendar) heading() string {
 
 func (c *Calendar) Header() string {
 	// Todo insert links 'n such.
+	// template
 	return `
 <div class="container">
 <div class="col-md-8 col-md-offset-2">
@@ -86,7 +88,7 @@ func (c *Calendar) entry(t time.Time) string {
 	case free:
 		date := fmt.Sprintf("%4d-%02d-%02d", t.Year(), t.Month(), t.Day())
 		href = fmt.Sprintf("<a data-toggle=\"modal\" href=\"#formBookingModal\" data-date=\"%s\">%s</a>", date, day)
-		class= fmt.Sprintf("\t<td class=\"%s btn btn-block\">", d)
+		class = fmt.Sprintf("\t<td class=\"%s btn btn-block\">", d)
 	case busy:
 		href = day
 	case past:
@@ -105,14 +107,20 @@ func (c *Calendar) HTML() string {
 	return s
 }
 
-func (c *Calendar) html() string {
+func (c *Calendar) sort() times {
 	keys := times{}
 	for k := range c.days {
 		keys = append(keys, k)
 	}
 
-	s := c.heading()
 	sort.Sort(keys)
+	return keys
+}
+
+func (c *Calendar) html() string {
+	keys := c.sort()
+
+	s := c.heading()
 	i := 0
 	for _, k := range keys {
 		if i%7 == 0 {
@@ -128,8 +136,7 @@ func (c *Calendar) html() string {
 	return s
 }
 
-// New creates a new month calendar based on d. D must
-// be in the form: YYYY-MM-DD.
+// New creates a new month calendar based on d, d must be in the form: YYYY-MM-DD.
 func New(d string) (*Calendar, error) {
 	date, err := time.Parse("2006-01-02", d)
 	if err != nil {
@@ -138,6 +145,7 @@ func New(d string) (*Calendar, error) {
 	cal := &Calendar{days: make(map[time.Time]Available)}
 
 	now := time.Now()
+
 	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.UTC)
 	first := time.Date(date.Year(), date.Month(), 1, 0, 0, 0, 0, time.UTC)
 	last := time.Date(date.Year(), date.Month()+1, 1, 0, 0, 0, 0, time.UTC)
@@ -175,6 +183,11 @@ func New(d string) (*Calendar, error) {
 		}
 
 		j++
+	}
+	times := cal.sort()
+	if len(times) > 0 {
+		cal.begin = times[0]
+		cal.end = times[len(times)-1]
 	}
 
 	return cal, nil
