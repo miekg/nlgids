@@ -48,6 +48,9 @@ func (c *Calendar) FreeBusy() error {
 	begin := c.begin.Format(time.RFC3339)
 	end := c.end.AddDate(0, 0, 1).Format(time.RFC3339)
 
+	println(begin)
+	println(end)
+
 	events, err := srv.Events.List("primary").ShowDeleted(false).
 		SingleEvents(true).TimeMin(begin).TimeMax(end).OrderBy("startTime").Do()
 	if err != nil {
