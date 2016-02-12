@@ -11,7 +11,7 @@ import (
 )
 
 func client() (*http.Client, error) {
-	b, err := ioutil.ReadFile("/home/miek/NLgids-fcbeb7928cdb.json")
+	b, err := ioutil.ReadFile("/opt/tmpl/nlgids/NLgids-fcbeb7928cdb.json")
 	if err != nil {
 		return nil, err
 	}
