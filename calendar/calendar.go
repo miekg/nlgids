@@ -145,6 +145,7 @@ func New(d string) (*Calendar, error) {
 	cal := &Calendar{days: make(map[time.Time]Available)}
 
 	now := time.Now()
+	/// If we see now we set the class now (or something)
 
 	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.UTC)
 	first := time.Date(date.Year(), date.Month(), 1, 0, 0, 0, 0, time.UTC)

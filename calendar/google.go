@@ -1,7 +1,6 @@
 package calendar
 
 import (
-	"fmt"
 	"io/ioutil"
 	"time"
 
@@ -13,7 +12,7 @@ import (
 // FreeBusy will retrieve all evens for this Calendar and mark each day as either free
 // or busy depending on the All-Day events in the Google Calendar.
 func (c *Calendar) FreeBusy() error {
-	b, err := ioutil.ReadFile("/home/miek/downloads/NLgids-fcbeb7928cdb.json")
+	b, err := ioutil.ReadFile("/home/miek/NLgids-fcbeb7928cdb.json")
 	if err != nil {
 		return err
 	}
@@ -40,23 +39,19 @@ func (c *Calendar) FreeBusy() error {
 		return err
 	}
 
-	fmt.Println("Upcoming events:")
-	if len(events.Items) > 0 {
-		for _, i := range events.Items {
-			var when string
-			// If the DateTime is an empty string the Event is an all-day Event.
-			// So only Date is available.
-			if i.Start.DateTime != "" {
-				when = i.Start.DateTime
-			} else {
-				when = i.Start.Date
-			}
-			// for each when and all-day events we set the calendar entry to busy
-			// (if not in the past).
-			fmt.Printf("%s (%s)\n", i.Summary, when)
+	for _, i := range events.Items {
+		when := i.Start.Date
+		// If the DateTime is an empty string the Event is an all-day Event.
+		// So only Date is available.
+		println(i.Summary)
+		if i.Start.DateTime != "" {
+			continue
 		}
-	} else {
-		fmt.Printf("No upcoming events found.\n")
+		whenTime, _ := time.Parse("2006-01-02", when)
+		if _, ok := c.days[whenTime]; ok {
+			println("setting", when)
+			c.days[whenTime] = busy
+		}
 	}
 	return nil
 }
