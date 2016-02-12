@@ -42,7 +42,7 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) 
 
 	case path.Matches("/api/open/calendar"):
 	case path.Matches("/api/open/caltest"):
-		//return WebCalendarTest(w, r)
+		return WebCalendarTest(w, r)
 
 	}
 	return http.StatusOK, nil
