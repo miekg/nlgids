@@ -39,24 +39,23 @@ func (t times) Swap(i, j int)      { t[i], t[j] = t[j], t[i] }
 
 func (c *Calendar) heading() string {
 	// lang!
-	return "<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>\n"
+	s := `<div class="row">
+<div class="col-md-10 col-md-offset-1">
+<table class="table table-bordered table-condensed">`
+	s += "<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>\n"
+	return s
 }
 
 func (c *Calendar) Header() string {
-	// Todo insert links 'n such.
-	// template
-	return `
-<div class="container">
-<div class="col-md-8 col-md-offset-2">
-
-<div class="panel-heading text-center">
+	// Template on Calendar that gets the month from c (or we set it).
+	s := `<div class="panel-heading text-center">
     <div class="row">
         <div class="col-md-3 col-xs-4">
             <a class="btn btn-default btn-sm">
                 <span class="glyphicon glyphicon-arrow-left"></span>
             </a>
         </div>
-        <div class="col-md-6 col-xs-4"><strong>bla </strong></div>
+        <div class="col-md-6 col-xs-4"><strong>bla</strong></div>
 
         <div class="col-md-3 col-xs-4">
             <a class="btn btn-default btn-sm" href="">
@@ -65,6 +64,7 @@ func (c *Calendar) Header() string {
         </div>
     </div>
 </div>`
+	return s
 }
 
 func (c *Calendar) Footer() string {
@@ -77,8 +77,6 @@ func (c *Calendar) openTR() string  { return "<tr>\n" }
 func (c *Calendar) closeTR() string { return "</tr>\n" }
 
 func (c *Calendar) entry(t time.Time) string {
-	// Make something like:
-	// <td class="free"><a data-toggle="modal" href="#formBookingModal" data-date="2015-01-03">3</a></td>
 	d := c.days[t]
 	day := fmt.Sprintf("%02d", t.Day())
 	class := fmt.Sprintf("\t<td class=\"%s\">", d)
@@ -87,7 +85,7 @@ func (c *Calendar) entry(t time.Time) string {
 	switch d {
 	case free:
 		date := fmt.Sprintf("%4d-%02d-%02d", t.Year(), t.Month(), t.Day())
-		href = fmt.Sprintf("<a data-toggle=\"modal\" href=\"#formBookingModal\" data-date=\"%s\">%s</a>", date, day)
+		href = fmt.Sprintf("<a onclick='SetDate(\"%s\")'>%s</a>", date, d) // SetDate is defined on the page/form itself
 		class = fmt.Sprintf("\t<td class=\"%s btn btn-block\">", d)
 	case busy:
 		href = day
@@ -100,7 +98,7 @@ func (c *Calendar) entry(t time.Time) string {
 
 func (c *Calendar) HTML() string {
 	s := c.Header()
-	s += "<table class=\"table table-bordered\">\n"
+	s += "<table class=\"table table-bordered table-condensed\">\n"
 	s += c.html()
 	s += "</table>"
 	s += c.Footer()

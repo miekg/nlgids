@@ -2,6 +2,7 @@ package calendar
 
 import (
 	"io/ioutil"
+	"net/http"
 	"time"
 
 	"golang.org/x/oauth2"
@@ -9,20 +10,34 @@ import (
 	gcal "google.golang.org/api/calendar/v3"
 )
 
-// FreeBusy will retrieve all evens for this Calendar and mark each day as either free
-// or busy depending on the All-Day events in the Google Calendar.
-func (c *Calendar) FreeBusy() error {
+func client() (*http.Client, error) {
 	b, err := ioutil.ReadFile("/home/miek/NLgids-fcbeb7928cdb.json")
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	config, err := google.JWTConfigFromJSON(b, gcal.CalendarReadonlyScope)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	config.Subject = "miek@miek.nl" // TODO: ans
 	client := config.Client(oauth2.NoContext)
+	return client, nil
+}
+
+// FreeBusy returns true if there is an all-day even on the the d (YYYY-MM-DD).
+func FreeBusy(d string) (bool, error) {
+	// Check this one date
+	return true, nil
+}
+
+// FreeBusy will retrieve all evens for this Calendar and mark each day as either free
+// or busy depending on the All-Day events in the Google Calendar.
+func (c *Calendar) FreeBusy() error {
+	client, err := client()
+	if err != nil {
+		return err
+	}
 
 	srv, err := gcal.New(client)
 	if err != nil {
