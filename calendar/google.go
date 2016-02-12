@@ -48,9 +48,6 @@ func (c *Calendar) FreeBusy() error {
 	begin := c.begin.Format(time.RFC3339)
 	end := c.end.AddDate(0, 0, 1).Format(time.RFC3339)
 
-	println(begin)
-	println(end)
-
 	events, err := srv.Events.List("primary").ShowDeleted(false).
 		SingleEvents(true).TimeMin(begin).TimeMax(end).OrderBy("startTime").Do()
 	if err != nil {
@@ -61,13 +58,11 @@ func (c *Calendar) FreeBusy() error {
 		when := i.Start.Date
 		// If the DateTime is an empty string the Event is an all-day Event.
 		// So only Date is available.
-		println(i.Summary)
 		if i.Start.DateTime != "" {
 			continue
 		}
 		whenTime, _ := time.Parse("2006-01-02", when)
 		if _, ok := c.days[whenTime]; ok {
-			println("setting", when)
 			c.days[whenTime] = busy
 		}
 	}
