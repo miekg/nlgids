@@ -2,14 +2,21 @@ package nlgids
 
 import (
 	"testing"
-	"time"
 
 	"github.com/miekg/nlgids/calendar"
 )
 
-func TestCalendar(t *testing.T) {
-	now := time.Now().UTC()
-	c, err := calendar.New(now.Format("2006-01-02"))
+func TestCalendarNow(t *testing.T) {
+	c, err := calendar.New("")
+	if err != nil {
+		t.Fatal(err)
+	}
+	c.FreeBusy()
+	t.Log(c.HTML())
+}
+
+func TestCalendarHistoric(t *testing.T) {
+	c, err := calendar.New("2015-12-01")
 	if err != nil {
 		t.Fatal(err)
 	}

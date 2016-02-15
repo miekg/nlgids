@@ -85,8 +85,8 @@ func (c *Calendar) entry(t time.Time) string {
 	switch d {
 	case free:
 		date := fmt.Sprintf("%4d-%02d-%02d", t.Year(), t.Month(), t.Day())
-		href = fmt.Sprintf("<a onclick='SetDate(\"%s\")'>%s</a>", date, t.Day()) // SetDate is defined on the page/form itself
-		class = fmt.Sprintf("\t<td class=\"%s btn btn-block\">", d)
+		href = fmt.Sprintf("<a href=\"#\" onclick=\"SetDate('%s')\">%d</a>", date, t.Day()) // SetDate is defined on the page/form itself
+		class = fmt.Sprintf("\t<td class=\"%s\">", d)
 	case busy:
 		href = day
 	case past:
@@ -144,12 +144,7 @@ func New(d string) (*Calendar, error) {
 		}
 	}
 
-	// Set the now class for today and grey out prev if in the past,
-	// other set the contents to ...
-
 	cal := &Calendar{days: make(map[time.Time]Available)}
-
-	/// If we see now we set the class now (or something)
 
 	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.UTC)
 	first := time.Date(date.Year(), date.Month(), 1, 0, 0, 0, 0, time.UTC)
