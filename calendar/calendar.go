@@ -85,7 +85,7 @@ func (c *Calendar) entry(t time.Time) string {
 	switch d {
 	case free:
 		date := fmt.Sprintf("%4d-%02d-%02d", t.Year(), t.Month(), t.Day())
-		href = fmt.Sprintf("<a onclick='SetDate(\"%s\")'>%s</a>", date, d) // SetDate is defined on the page/form itself
+		href = fmt.Sprintf("<a onclick='SetDate(\"%s\")'>%s</a>", date, t.Day()) // SetDate is defined on the page/form itself
 		class = fmt.Sprintf("\t<td class=\"%s btn btn-block\">", d)
 	case busy:
 		href = day
@@ -123,7 +123,7 @@ func (c *Calendar) html() string {
 			if i > 0 {
 				s += c.closeTR()
 			}
-			s += c.closeTR()
+			s += c.openTR()
 		}
 		s += c.entry(k)
 		i++
