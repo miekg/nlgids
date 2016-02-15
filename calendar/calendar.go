@@ -135,14 +135,19 @@ func (c *Calendar) html() string {
 }
 
 // New creates a new month calendar based on d, d must be in the form: YYYY-MM-DD.
+// D can also be the empty string, then the current date is assumed.
 func New(d string) (*Calendar, error) {
-	date, err := time.Parse("2006-01-02", d)
-	if err != nil {
-		return nil, err
+	date, now := time.Now(), time.Now()
+	if d != "" {
+		var err error
+		date, err = time.Parse("2006-01-02", d)
+		if err != nil {
+			return nil, err
+		}
 	}
+
 	cal := &Calendar{days: make(map[time.Time]Available)}
 
-	now := time.Now()
 	/// If we see now we set the class now (or something)
 
 	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.UTC)
