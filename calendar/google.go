@@ -11,7 +11,7 @@ import (
 )
 
 func client() (*http.Client, error) {
-	b, err := ioutil.ReadFile("/home/miek/NLgids-fcbeb7928cdb.json")
+	b, err := ioutil.ReadFile("/opt/tmpl/nlgids/NLgids-fcbeb7928cdb.json")
 	if err != nil {
 		return nil, err
 	}
@@ -58,13 +58,11 @@ func (c *Calendar) FreeBusy() error {
 		when := i.Start.Date
 		// If the DateTime is an empty string the Event is an all-day Event.
 		// So only Date is available.
-		println(i.Summary)
 		if i.Start.DateTime != "" {
 			continue
 		}
 		whenTime, _ := time.Parse("2006-01-02", when)
 		if _, ok := c.days[whenTime]; ok {
-			println("setting", when)
 			c.days[whenTime] = busy
 		}
 	}

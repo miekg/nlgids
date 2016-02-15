@@ -20,7 +20,6 @@ type handler struct {
 }
 
 func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) {
-	println("allo")
 	if r.Method != "POST" {
 		return h.Next.ServeHTTP(w, r)
 	}
@@ -42,6 +41,7 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) 
 	case path.Matches("/api/open/booking"):
 
 	case path.Matches("/api/open/calendar"):
+		fallthrough
 	case path.Matches("/api/open/calendar/test"):
 		return WebCalendarTest(w, r)
 
