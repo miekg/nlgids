@@ -7,7 +7,7 @@ import (
 	"github.com/miekg/nlgids/calendar"
 )
 
-func WebCalendarTest(w http.ResponseWriter, r *http.Request) (int, error) {
+func WebCalendar(w http.ResponseWriter, r *http.Request) (int, error) {
 	date := r.PostFormValue("date") // YYYY-MM-DD, empty is allowed.
 	c, err := calendar.New(date)
 	if err != nil {

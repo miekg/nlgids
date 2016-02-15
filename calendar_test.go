@@ -14,5 +14,5 @@ func TestCalendar(t *testing.T) {
 		t.Fatal(err)
 	}
 	c.FreeBusy()
-	println(c.HTML())
+	t.Log(c.HTML())
 }

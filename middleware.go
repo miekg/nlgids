@@ -32,19 +32,14 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) 
 	switch {
 	case path.Matches("/api/auth/test"):
 		return WebInvoiceTest(w, r)
-
 	case path.Matches("/api/auth/invoice"):
 
 	case path.Matches("/api/open/contact"):
 		return WebContact(w, r)
-
 	case path.Matches("/api/open/booking"):
 
 	case path.Matches("/api/open/calendar"):
-		fallthrough
-	case path.Matches("/api/open/calendar/test"):
-		return WebCalendarTest(w, r)
-
+		return WebCalendar(w, r)
 	}
 	return http.StatusOK, nil
 }
