@@ -146,6 +146,9 @@ func New(d string) (*Calendar, error) {
 		}
 	}
 
+	// Set the now class for today and grey out prev if in the past,
+	// other set the contents to ...
+
 	cal := &Calendar{days: make(map[time.Time]Available)}
 
 	/// If we see now we set the class now (or something)

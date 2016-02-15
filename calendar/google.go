@@ -10,8 +10,13 @@ import (
 	gcal "google.golang.org/api/calendar/v3"
 )
 
+var (
+	subject = "miek@miek.nl" // ans@nlgids.london
+	secret  = "/opt/etc/NLgids-fcbeb7928cdb.json"
+)
+
 func client() (*http.Client, error) {
-	b, err := ioutil.ReadFile("/opt/tmpl/nlgids/NLgids-fcbeb7928cdb.json")
+	b, err := ioutil.ReadFile(secret)
 	if err != nil {
 		return nil, err
 	}
@@ -20,7 +25,7 @@ func client() (*http.Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	config.Subject = "miek@miek.nl" // TODO: ans
+	config.Subject = subject
 	client := config.Client(oauth2.NoContext)
 	return client, nil
 }
