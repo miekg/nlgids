@@ -68,7 +68,7 @@ func (c *Calendar) Header() string {
 }
 
 func (c *Calendar) Footer() string {
-	return `
+	return `</table>
 </div>
 </div>`
 }
@@ -98,9 +98,7 @@ func (c *Calendar) entry(t time.Time) string {
 
 func (c *Calendar) HTML() string {
 	s := c.Header()
-	s += "<table class=\"table table-bordered table-condensed\">\n"
 	s += c.html()
-	s += "</table>"
 	s += c.Footer()
 	return s
 }
