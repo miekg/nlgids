@@ -9,7 +9,7 @@ import (
 
 var (
 	avail   = [...]string{"past", "busy", "free"}
-	monthNL = [...]string{"januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"}
+	monthNL = [...]string{"boogie", "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"}
 )
 
 type Available int
