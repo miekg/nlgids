@@ -7,9 +7,10 @@ import (
 	"time"
 )
 
-// TODO: next button should have a ref to point to something.
-
-var avail = [...]string{"past", "busy", "free"}
+var (
+	avail   = [...]string{"past", "busy", "free"}
+	monthNL = [...]string{"januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"}
+)
 
 type Available int
 
@@ -28,7 +29,7 @@ type Calendar struct {
 	days  map[time.Time]Available
 	begin time.Time
 	end   time.Time
-	// month we're in (mostly)?
+	start time.Time // generated for this date
 }
 
 type times []time.Time
@@ -38,26 +39,30 @@ func (t times) Less(i, j int) bool { return t[i].Before(t[j]) }
 func (t times) Swap(i, j int)      { t[i], t[j] = t[j], t[i] }
 
 func (c *Calendar) heading() string {
-	// lang!
 	s := `<div class="row">
 <div class="col-md-10 col-md-offset-1">
 <table class="table table-bordered table-condensed">`
-	s += "<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>\n"
+	s += "<tr lang=\"en\"><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>\n"
+	s += "<tr lang=\"nl\"><th>zon</th><th>maa</th><th>din</th><th>woe</th><th>don</th><th>vrij</th><th>zat</th></tr>\n"
 	return s
 }
 
+// Header returns the header of the calendar.
 func (c *Calendar) Header() string {
-	// Template on Calendar that gets the month from c (or we set it).
+	month := c.start.Month()
+
 	s := `<div class="panel-heading text-center">
     <div class="row">
         <div class="col-md-3 col-xs-4">
             <a class="btn btn-default btn-sm">
                 <span class="glyphicon glyphicon-arrow-left"></span>
             </a>
-        </div>
-        <div class="col-md-6 col-xs-4"><strong>bla</strong></div>
+        </div>`
 
-        <div class="col-md-3 col-xs-4">
+	s += "<div class=\"col-md-6 col-xs-4\"><strong lang=\"nl\">" + month.String() + "</strong></div>"
+	s += "<div class=\"col-md-6 col-xs-4\"><strong lang=\"en\">" + monthNL[month] + "</strong></div>"
+
+	s += `<div class="col-md-3 col-xs-4">
             <a class="btn btn-default btn-sm" href="">
                 <span class="glyphicon glyphicon-arrow-right"></span>
             </a>
@@ -85,7 +90,7 @@ func (c *Calendar) entry(t time.Time) string {
 	switch d {
 	case free:
 		date := fmt.Sprintf("%4d-%02d-%02d", t.Year(), t.Month(), t.Day())
-		href = fmt.Sprintf("<a href=\"#\" onclick=\"SetDate('%s')\">%d</a>", date, t.Day()) // SetDate is defined on the page/form itself
+		href = fmt.Sprintf("<a href=\"#\" onclick=\"BookingDate('%s')\">%d</a>", date, t.Day()) // BookingDate is defined on the page/form itself
 		class = fmt.Sprintf("\t<td class=\"%s\">", d)
 	case busy:
 		href = day
@@ -144,7 +149,7 @@ func New(d string) (*Calendar, error) {
 		}
 	}
 
-	cal := &Calendar{days: make(map[time.Time]Available)}
+	cal := &Calendar{days: make(map[time.Time]Available), start: date}
 
 	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.UTC)
 	first := time.Date(date.Year(), date.Month(), 1, 0, 0, 0, 0, time.UTC)
