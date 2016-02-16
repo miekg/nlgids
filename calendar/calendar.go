@@ -43,7 +43,7 @@ func (c *Calendar) heading() string {
 <div class="col-md-10 col-md-offset-1">
 <table class="table table-bordered table-condensed">`
 	s += "<tr lang=\"en\"><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>\n"
-	s += "<tr lang=\"nl\"><th>zon</th><th>maa</th><th>din</th><th>woe</th><th>don</th><th>vrij</th><th>zat</th></tr>\n"
+	s += "<tr lang=\"nl\"><th>zo</th><th>ma</th><th>di</th><th>wo</th><th>do</th><th>vr</th><th>za</th></tr>\n"
 	return s
 }
 
@@ -59,8 +59,8 @@ func (c *Calendar) Header() string {
             </a>
         </div>`
 
-	s += "<div class=\"col-md-6 col-xs-4\"><strong lang=\"nl\">" + month.String() + "</strong></div>"
-	s += "<div class=\"col-md-6 col-xs-4\"><strong lang=\"en\">" + monthNL[month] + "</strong></div>"
+	s += "<div class=\"col-md-6 col-xs-4\"><strong lang=\"en\">" + month.String() + "</strong></div>"
+	s += "<div class=\"col-md-6 col-xs-4\"><strong lang=\"nl\">" + monthNL[month] + "</strong></div>"
 
 	s += `<div class="col-md-3 col-xs-4">
             <a class="btn btn-default btn-sm" href="">
