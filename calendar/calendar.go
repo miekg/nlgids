@@ -52,8 +52,8 @@ const templ = `
             </a>
         </div>
 
-	<div class="col-md-6"><strong lang="en">{{.MonthEN}}</strong></div>
-	<div class="col-md-6"><strong lang="nl">{{.MonthNL}}</strong></div>
+	<div lang="nl" class="col-md-6"><strong lang="nl">{{.MonthNL}}</strong></div>
+	<div lang="en" class="col-md-6"><strong lang="en">{{.MonthEN}}</strong></div>
 
 	<div class="col-md-3">
             <a class="btn btn-default btn-sm" onclick='BookingCalendar({{.Next}})'>
