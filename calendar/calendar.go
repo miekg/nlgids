@@ -53,7 +53,7 @@ func (c *Calendar) Header() string {
 
 	s := `<div class="panel-heading text-center">
     <div class="row">
-        <div class="col-md-2 col-md-offset-1">
+        <div class="col-md-3">
             <a class="btn btn-default btn-sm">
                 <span class="glyphicon glyphicon-arrow-left"></span>
             </a>
