@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
+	"log"
 	"sort"
 	"time"
 )
@@ -31,8 +32,8 @@ const templ = `
             </a>
         </div>
 
-	<div class=\"col-md-6\"><strong lang=\"en\">{{.MonthEN}}</strong></div>
-	<div class=\"col-md-6\"><strong lang=\"nl\">{{.MonthNL}}</strong></div>
+	<div class="col-md-6"><strong lang="en">{{.MonthEN}}</strong></div>
+	<div class="col-md-6"><strong lang="nl">{{.MonthNL}}</strong></div>
 
 	<div class="col-md-3">
             <a class="btn btn-default btn-sm" onclick='BookingCalendar({{.Next}})'>
@@ -98,9 +99,15 @@ func (c *Calendar) Header() string {
 	}
 
 	t := template.New("Header template")
-	t, _ = t.Parse(templ)
+	t, err := t.Parse(templ)
+	if err != nil {
+		log.Printf("%s", err)
+	}
 	buf := &bytes.Buffer{}
-	t.Execute(buf, head)
+	err = t.Execute(buf, head)
+	if err != nil {
+		log.Printf("%s", err)
+	}
 	return buf.String()
 }
 

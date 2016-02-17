@@ -12,7 +12,7 @@ import (
 
 var (
 	subject = "miek@miek.nl" // ans@nlgids.london
-	secret  = "/opt/etc/NLgids-fcbeb7928cdb.json"
+	secret  = "/home/miek/NLgids-fcbeb7928cdb.json"
 )
 
 func client() (*http.Client, error) {
