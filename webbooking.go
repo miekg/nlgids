@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/miekg/nlgids/email"
+	ntour "github.com/miekg/nlgids/tour"
 	"github.com/miekg/nlgids/webbooking"
 )
 
@@ -28,6 +29,8 @@ func WebBooking(w http.ResponseWriter, r *http.Request) (int, error) {
 		}
 	}
 	// Validate date and return error if not available.
+
+	tour = ntour.NameOrNonExists(tour)
 
 	booking := &webbooking.Booking{
 		Tour:    tour,
