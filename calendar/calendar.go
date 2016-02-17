@@ -2,14 +2,16 @@
 package calendar
 
 import (
+	"bytes"
 	"fmt"
+	"html/template"
 	"sort"
 	"time"
 )
 
 var (
-	avail   = [...]string{"past", "busy", "free"}
-	monthNL = [...]string{"boogie", "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"}
+	avail  = [...]string{"past", "busy", "free"}
+	months = [...]string{"boogie", "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"}
 )
 
 type Available int
@@ -20,7 +22,40 @@ const (
 	free
 )
 
+const templ = `
+    <div class="panel-heading text-center">
+    <div class="row">
+        <div class="col-md-3">
+            <a class="btn btn-default btn-sm" onclick='BookingCalendar({{.Prev}})'>
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </a>
+        </div>
+
+	<div class=\"col-md-6\"><strong lang=\"en\">{{.MonthEN}}</strong></div>
+	<div class=\"col-md-6\"><strong lang=\"nl\">{{.MonthNL}}</strong></div>
+
+	<div class="col-md-3">
+            <a class="btn btn-default btn-sm" onclick='BookingCalendar({{.Next}})'>
+                <span class="glyphicon glyphicon-arrow-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+`
+
+type header struct {
+	Prev    string
+	Next    string
+	MonthEN string
+	MonthNL string
+}
+
 func (a Available) String() string { return avail[a] }
+
+func Date(t time.Time) string {
+	date := fmt.Sprintf("%4d-%02d-%02d", t.Year(), t.Month(), t.Day())
+	return date
+}
 
 // Calendar holds the HTML that makes up the calendar. Each
 // day is indexed by the 12 o' clock night time time.Time.
@@ -51,25 +86,22 @@ func (c *Calendar) heading() string {
 func (c *Calendar) Header() string {
 	month := c.start.Month()
 
-	s := `<div class="panel-heading text-center">
-    <div class="row">
-        <div class="col-md-3">
-            <a class="btn btn-default btn-sm">
-                <span class="glyphicon glyphicon-arrow-left"></span>
-            </a>
-        </div>`
+	prev := c.start.AddDate(0, -1, 0)
+	next := c.start.AddDate(0, +1, 0)
+	monthEN := month.String()
+	monthNL := months[month]
+	head := &header{
+		Prev:    Date(prev),
+		Next:    Date(next),
+		MonthEN: monthEN,
+		MonthNL: monthNL,
+	}
 
-	s += "<div class=\"col-md-6\"><strong lang=\"en\">" + month.String() + "</strong></div>"
-	s += "<div class=\"col-md-6\"><strong lang=\"nl\">" + monthNL[month] + "</strong></div>"
-
-	s += `<div class="col-md-3">
-            <a class="btn btn-default btn-sm" href="">
-                <span class="glyphicon glyphicon-arrow-right"></span>
-            </a>
-        </div>
-    </div>
-</div>`
-	return s
+	t := template.New("Header template")
+	t, _ = t.Parse(templ)
+	buf := &bytes.Buffer{}
+	t.Execute(buf, head)
+	return buf.String()
 }
 
 func (c *Calendar) Footer() string {
@@ -89,7 +121,7 @@ func (c *Calendar) entry(t time.Time) string {
 	href := ""
 	switch d {
 	case free:
-		date := fmt.Sprintf("%4d-%02d-%02d", t.Year(), t.Month(), t.Day())
+		date := Date(t)
 		href = fmt.Sprintf("<a href=\"#\" onclick=\"BookingDate('%s')\">%d</a>", date, t.Day()) // BookingDate is defined on the page/form itself
 		class = fmt.Sprintf("\t<td class=\"%s\">", d)
 	case busy:
