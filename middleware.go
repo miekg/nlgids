@@ -13,6 +13,7 @@ func Setup(c *setup.Controller) (middleware.Middleware, error) {
 	}, nil
 }
 
+// handler is the nlgids middleware handler.
 type handler struct{ Next middleware.Handler }
 
 func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) {
@@ -32,7 +33,7 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) 
 	case path.Matches("/api/open/contact"):
 		return WebContact(w, r)
 	case path.Matches("/api/open/booking"):
-		//		return WebBooking(w, r)
+		return WebBooking(w, r)
 	case path.Matches("/api/open/calendar"):
 		return WebCalendar(w, r)
 	}
