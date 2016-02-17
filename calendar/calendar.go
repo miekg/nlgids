@@ -146,7 +146,7 @@ func (c *Calendar) entry(t time.Time) string {
 
 	switch am.Available {
 	case Free:
-		href = fmt.Sprintf("<a onclick=\"BookingDate('%s')\">%d</a>", Date(t), t.Day()) // BookingDate is defined on the page/form itself
+		href = fmt.Sprintf("<a href=\"#\" onclick=\"BookingDate('%s')\">%d</a>", Date(t), t.Day()) // BookingDate is defined on the page/form itself
 	case Busy, Past:
 		href = fmt.Sprintf("%d", t.Day())
 	}
