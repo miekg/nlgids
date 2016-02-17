@@ -30,7 +30,7 @@ func client() (*http.Client, error) {
 	return client, nil
 }
 
-// FreeBusy returns true if there is an all-day even on the the d (YYYY-MM-DD).
+// FreeBusy returns true if there is an all-day event on the the date d (YYYY-MM-DD).
 func FreeBusy(d string) (bool, error) {
 	// Check this one date
 	return true, nil

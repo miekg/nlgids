@@ -4,24 +4,26 @@ package webbooking
 
 import (
 	"bytes"
-	"log"
 	"text/template"
-
-	"github.com/miekg/nlgids/email"
 )
 
 // Booking is a customer booking form.
-type Contact struct {
+type Booking struct {
+	Tour string
+	Date string
+
 	Name    string
 	Email   string
 	Phone   string
+	Persons string
 	Message string
 }
 
 const templ = `Hallo Ans,
 
-Er is een contact formulier ingevuld, met de volgende details:
+Er is een boekings formulier ingevuld, met de volgende details:
 
+* Tour..: {{.Tour}} op {{.Date}}
 * Naam..: {{.Name}} ({{.Email}})
 * Tel...: {{.Phone}}
 
@@ -37,27 +39,21 @@ Met vriendelijke groet,
     NLgids mailer
 `
 
-func doit() {
+func (b *Booking) MailBody() (*bytes.Buffer, error) {
 	t := template.New("Contact template")
 	t, err := t.Parse(templ)
 	if err != nil {
-		log.Fatal(err)
-	}
-
-	c := &Contact{
-		"Miek Gieben",
-		"miek@miek.nl",
-		"07774 517 566",
-		"Hee, we komen op bezoek!",
+		return nil, err
 	}
 
 	buf := &bytes.Buffer{}
+	if err := t.Execute(buf, b); err != nil {
+		return nil, err
+	}
+	return buf, nil
+}
 
-	if err := t.Execute(buf, c); err != nil {
-		log.Fatal(err)
-	}
-	mail := email.NewContactEmail("[NLgids] Contact van \""+c.Name+"\"", buf)
-	if err := email.Do(mail); err != nil {
-		log.Fatal(err)
-	}
+func (b *Booking) MailSubject() string {
+	subject := "Boeking op " + b.Date + ", van \"" + b.Name + "\""
+	return subject
 }

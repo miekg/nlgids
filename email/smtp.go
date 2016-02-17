@@ -30,7 +30,10 @@ func NewContact(subject string, body *bytes.Buffer) *Message {
 }
 
 func NewBooking(subject string, body *bytes.Buffer) *Message {
-	return nil
+	m := NewMessage(nlgidsPrefix+subject, body.String())
+	m.From = from
+	m.To = to
+	return m
 }
 
 func NewInvoice(subject string, body *bytes.Buffer, pdfName string, pdf []byte) *Message {

@@ -7,15 +7,16 @@ import (
 	"strings"
 
 	"github.com/miekg/nlgids/email"
-	"github.com/miekg/nlgids/webcontact"
+	"github.com/miekg/nlgids/webbooking"
 )
 
-func WebContact(w http.ResponseWriter, r *http.Request) (int, error) {
+func WebBooking(w http.ResponseWriter, r *http.Request) (int, error) {
+	tour, date := r.PostFormValue("tour"), r.PostFormValue("date")
 	name, email := r.PostFormValue("name"), r.PostFormValue("email")
 	phone, persons := r.PostFormValue("phone"), r.PostFormValue("persons")
 	message := r.PostFormValue("message")
 
-	if name == "" || email == "" || message == "" {
+	if name == "" || email == "" {
 		return http.StatusBadRequest, nil
 	}
 	if !strings.Contains(email, "@") {
@@ -26,25 +27,28 @@ func WebContact(w http.ResponseWriter, r *http.Request) (int, error) {
 			return http.StatusBadRequest, nil
 		}
 	}
+	// Validate date and return error if not available.
 
-	contact := &webcontact.Contact{
+	booking := &webbooking.Booking{
+		Tour:    tour,
+		Date:    date,
 		Name:    name,
 		Email:   email,
 		Phone:   phone,
 		Persons: persons,
 		Message: message,
 	}
-	return sendContactMail(contact)
+	return sendBookingMail(booking)
 }
 
-func sendContactMail(c *webcontact.Contact) (int, error) {
-	subject := c.MailSubject()
-	body, err := c.MailBody()
+func sendBookingMail(b *webbooking.Booking) (int, error) {
+	subject := b.MailSubject()
+	body, err := b.MailBody()
 	if err != nil {
 		log.Printf("%s", err)
 		return http.StatusInternalServerError, err
 	}
-	mail := email.NewContact(subject, body)
+	mail := email.NewBooking(subject, body)
 	if err := mail.Do(); err != nil {
 		log.Printf("%s", err)
 		return http.StatusInternalServerError, err
