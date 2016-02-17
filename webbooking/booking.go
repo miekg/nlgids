@@ -23,9 +23,11 @@ const templ = `Hallo Ans,
 
 Er is een boekings formulier ingevuld, met de volgende details:
 
-* Tour..: {{.Tour}} op {{.Date}}
-* Naam..: {{.Name}} ({{.Email}})
-* Tel...: {{.Phone}}
+* Tour......: {{.Tour}} op {{.Date}}
+* Datum.....: {{.Date}}
+* Naam......: {{.Name}} ({{.Email}})
+* Tel.......: {{.Phone}}
+* Personen..: {{.Persons}}
 
 En het volgende bericht is achter gelaten:
 
@@ -54,6 +56,6 @@ func (b *Booking) MailBody() (*bytes.Buffer, error) {
 }
 
 func (b *Booking) MailSubject() string {
-	subject := "Boeking op " + b.Date + ", van \"" + b.Name + "\""
+	subject := "Boeking op " + b.Date + " van \"" + b.Name + "\""
 	return subject
 }
