@@ -27,7 +27,7 @@ const templ = `
     <div class="panel-heading text-center">
     <div class="row">
         <div class="col-md-3">
-            <a class="btn btn-default btn-sm" onclick='BookingCalendar({{.Prev}})'>
+            <a class="btn btn-default btn-sm" href="#" onclick='BookingCalendar({{.Prev}})'>
                 <span class="glyphicon glyphicon-arrow-left"></span>
             </a>
         </div>
@@ -36,7 +36,7 @@ const templ = `
 	<div class="col-md-6"><strong lang="nl">{{.MonthNL}}</strong></div>
 
 	<div class="col-md-3">
-            <a class="btn btn-default btn-sm" onclick='BookingCalendar({{.Next}})'>
+            <a class="btn btn-default btn-sm" href="#" onclick='BookingCalendar({{.Next}})'>
                 <span class="glyphicon glyphicon-arrow-right"></span>
             </a>
         </div>
