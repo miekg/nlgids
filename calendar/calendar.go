@@ -89,8 +89,8 @@ func (c *Calendar) Header() string {
 
 	prev := c.start.AddDate(0, -1, 0)
 	next := c.start.AddDate(0, +1, 0)
-	monthEN := month.String() + " " + c.start.Year()
-	monthNL := months[month] + " " + c.start.Year()
+	monthEN := fmt.Sprintf("%s %d", month.String(), c.start.Year())
+	monthNL := fmt.Sprintf("%s %d", months[month], c.start.Year())
 	head := &header{
 		Prev:    Date(prev),
 		Next:    Date(next),
