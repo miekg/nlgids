@@ -27,7 +27,7 @@ const templ = `
     <div class="panel-heading text-center">
     <div class="row">
         <div class="col-md-3">
-            <a class="btn btn-default btn-sm" href="#" onclick='BookingCalendar({{.Prev}})'>
+            <a class="btn btn-default btn-sm" onclick='BookingCalendar({{.Prev}})'>
                 <span class="glyphicon glyphicon-arrow-left"></span>
             </a>
         </div>
@@ -36,7 +36,7 @@ const templ = `
 	<div class="col-md-6"><strong lang="nl">{{.MonthNL}}</strong></div>
 
 	<div class="col-md-3">
-            <a class="btn btn-default btn-sm" href="#" onclick='BookingCalendar({{.Next}})'>
+            <a class="btn btn-default btn-sm" onclick='BookingCalendar({{.Next}})'>
                 <span class="glyphicon glyphicon-arrow-right"></span>
             </a>
         </div>
@@ -89,8 +89,8 @@ func (c *Calendar) Header() string {
 
 	prev := c.start.AddDate(0, -1, 0)
 	next := c.start.AddDate(0, +1, 0)
-	monthEN := month.String()
-	monthNL := months[month]
+	monthEN := month.String() + " " + c.start.Year()
+	monthNL := months[month] + " " + c.start.Year()
 	head := &header{
 		Prev:    Date(prev),
 		Next:    Date(next),
