@@ -9,11 +9,11 @@ var Tour = map[string]string{
 	"walks/koninklijke": "Van Koninklijke Huize",
 	"walks/romeinen":    "Romeinen en Bankiers",
 	"walks/dutch":       "Nederlandse in de City",
-	"walks/custom":      "Op Maat Wandeling",
+	"walks/custom":      "Wandeling Op Maat",
 
 	"cycling/london": "London Tour",
 	"cycling/secret": "Secret Tour",
-	"cycling/custom": "Op Maat Fietstocht",
+	"cycling/custom": "Fietstocht Op Maat",
 
 	"specials/bus":    "Afternoon Tea Bustour",
 	"specials/gin":    "Gin and Cocktails",
