@@ -68,7 +68,7 @@ func (c *Calendar) FreeBusy() error {
 		}
 		whenTime, _ := time.Parse("2006-01-02", when)
 		if _, ok := c.days[whenTime]; ok {
-			c.days[whenTime] = busy
+			c.days[whenTime] = AvailMeta{Available: Busy}
 		}
 	}
 	return nil

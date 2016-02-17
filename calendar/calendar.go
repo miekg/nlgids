@@ -11,16 +11,36 @@ import (
 )
 
 var (
-	avail  = [...]string{"past", "busy", "free"}
+	avail  = [...]string{"", "past", "busy", "free"}
+	meta   = [...]string{"", " now", " prev", " next"} // spaces before each word
 	months = [...]string{"boogie", "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"}
 )
 
-type Available int
+func (a Available) String() string { return avail[a] }
+func (m Meta) String() string      { return meta[m] }
+
+type (
+	Available int
+	Meta      int
+
+	AvailMeta struct {
+		Available
+		Meta
+	}
+)
 
 const (
-	past Available = iota
-	busy
-	free
+	_ Available = iota
+	Past
+	Busy
+	Free
+)
+
+const (
+	_ Meta = iota
+	Now
+	Prev
+	Next
 )
 
 const templ = `
@@ -51,8 +71,6 @@ type header struct {
 	MonthNL string
 }
 
-func (a Available) String() string { return avail[a] }
-
 func Date(t time.Time) string {
 	date := fmt.Sprintf("%4d-%02d-%02d", t.Year(), t.Month(), t.Day())
 	return date
@@ -62,7 +80,7 @@ func Date(t time.Time) string {
 // day is indexed by the 12 o' clock night time time.Time.
 // All date are in the UTC timezone.
 type Calendar struct {
-	days  map[time.Time]Available
+	days  map[time.Time]AvailMeta
 	begin time.Time
 	end   time.Time
 	start time.Time // generated for this date
@@ -121,20 +139,16 @@ func (c *Calendar) openTR() string  { return "<tr>\n" }
 func (c *Calendar) closeTR() string { return "</tr>\n" }
 
 func (c *Calendar) entry(t time.Time) string {
-	d := c.days[t]
-	day := fmt.Sprintf("%02d", t.Day())
-	class := fmt.Sprintf("\t<td class=\"%s\">", d)
+	am := c.days[t]
+	class := fmt.Sprintf("\t<td class=\"%s%s\">", am.Available, am.Meta)
 	close := "</td>\n"
 	href := ""
-	switch d {
-	case free:
-		date := Date(t)
-		href = fmt.Sprintf("<a href=\"#\" onclick=\"BookingDate('%s')\">%d</a>", date, t.Day()) // BookingDate is defined on the page/form itself
-		class = fmt.Sprintf("\t<td class=\"%s\">", d)
-	case busy:
-		href = day
-	case past:
-		href = day
+
+	switch am.Available {
+	case Free:
+		href = fmt.Sprintf("<a onclick=\"BookingDate('%s')\">%d</a>", Date(t), t.Day()) // BookingDate is defined on the page/form itself
+	case Busy, Past:
+		href = fmt.Sprintf("%d", t.Day())
 	}
 	s := class + href + close
 	return s
@@ -188,7 +202,7 @@ func New(d string) (*Calendar, error) {
 		}
 	}
 
-	cal := &Calendar{days: make(map[time.Time]Available), start: date}
+	cal := &Calendar{days: make(map[time.Time]AvailMeta), start: date}
 
 	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.UTC)
 	first := time.Date(date.Year(), date.Month(), 1, 0, 0, 0, 0, time.UTC)
@@ -198,10 +212,10 @@ func New(d string) (*Calendar, error) {
 	// Add the remaining days of the previous month.
 	for i := 0; i < int(first.Weekday()); i++ {
 		lastMonthDay := first.AddDate(0, 0, -1*(i+1))
-		cal.days[lastMonthDay] = free
+		cal.days[lastMonthDay] = AvailMeta{Available: Free, Meta: Prev}
 
 		if lastMonthDay.Before(today) {
-			cal.days[lastMonthDay] = past
+			cal.days[lastMonthDay] = AvailMeta{Available: Past, Meta: Prev}
 		}
 	}
 
@@ -209,10 +223,10 @@ func New(d string) (*Calendar, error) {
 	for i := 1; i <= last.Day(); i++ {
 		day := time.Date(date.Year(), date.Month(), i, 0, 0, 0, 0, time.UTC)
 
-		cal.days[day] = free
+		cal.days[day] = AvailMeta{Available: Free}
 
 		if day.Before(today) {
-			cal.days[day] = past
+			cal.days[day] = AvailMeta{Available: Past}
 		}
 	}
 
@@ -220,14 +234,20 @@ func New(d string) (*Calendar, error) {
 	j := 1
 	for i := int(last.Weekday()) + 1; i < 7; i++ {
 		nextMonthDay := last.AddDate(0, 0, j)
-		cal.days[nextMonthDay] = free
+		cal.days[nextMonthDay] = AvailMeta{Available: Free, Meta: Next}
 
 		if nextMonthDay.Before(today) {
-			cal.days[nextMonthDay] = past
+			cal.days[nextMonthDay] = AvailMeta{Available: Past, Meta: Next}
 		}
 
 		j++
 	}
+
+	if cur, ok := cal.days[today]; ok {
+		cur.Meta = Now
+		cal.days[today] = cur
+	}
+
 	times := cal.sort()
 	if len(times) > 0 {
 		cal.begin = times[0]
