@@ -53,16 +53,16 @@ func (c *Calendar) Header() string {
 
 	s := `<div class="panel-heading text-center">
     <div class="row">
-        <div class="col-md-3 col-xs-4">
+        <div class="col-md-2 col-md-offset-1">
             <a class="btn btn-default btn-sm">
                 <span class="glyphicon glyphicon-arrow-left"></span>
             </a>
         </div>`
 
-	s += "<div class=\"col-md-6 col-xs-4\"><strong lang=\"en\">" + month.String() + "</strong></div>"
-	s += "<div class=\"col-md-6 col-xs-4\"><strong lang=\"nl\">" + monthNL[month] + "</strong></div>"
+	s += "<div class=\"col-md-6\"><strong lang=\"en\">" + month.String() + "</strong></div>"
+	s += "<div class=\"col-md-6\"><strong lang=\"nl\">" + monthNL[month] + "</strong></div>"
 
-	s += `<div class="col-md-3 col-xs-4">
+	s += `<div class="col-md-3">
             <a class="btn btn-default btn-sm" href="">
                 <span class="glyphicon glyphicon-arrow-right"></span>
             </a>
