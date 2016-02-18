@@ -16,36 +16,30 @@ const (
 	nlgidsPrefix = "[NLgids] "
 )
 
-var (
-	//to = []string{"ans@nlgids.london", "miek@miek.nl"}
-	to   = []string{"miek@miek.nl"}
-	from = "nlgids@x64.atoom.net"
-)
+var from = "nlgids@x64.atoom.net"
 
 func NewContact(subject string, body *bytes.Buffer) *Message {
 	m := NewMessage(nlgidsPrefix+subject, body.String())
-	m.From = from
-	m.To = to
 	return m
 }
 
 func NewBooking(subject string, body *bytes.Buffer) *Message {
 	m := NewMessage(nlgidsPrefix+subject, body.String())
-	m.From = from
-	m.To = to
 	return m
 }
 
 func NewInvoice(subject string, body *bytes.Buffer, pdfName string, pdf []byte) *Message {
 	m := NewMessage(nlgidsPrefix+subject, body.String())
-	m.From = from
-	m.To = to
 	m.AttachBytes(pdfName, pdf)
 	return m
 }
 
-// Do sends an email message.
-func (m *Message) Do() error { return Send(server, nil, m) }
+// Do sends an email message using the default to and from.
+func (m *Message) Do(rcpts []string) error {
+	m.From = from
+	m.To = rcpts
+	return Send(server, nil, m)
+}
 
 // Everything below:
 

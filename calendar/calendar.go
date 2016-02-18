@@ -84,6 +84,9 @@ type Calendar struct {
 	begin time.Time
 	end   time.Time
 	start time.Time // generated for this date
+
+	subject string // who's calendar
+	secret  string // service account client_secret.json
 }
 
 type times []time.Time
@@ -192,7 +195,7 @@ func (c *Calendar) html() string {
 
 // New creates a new month calendar based on d, d must be in the form: YYYY-MM-DD.
 // D can also be the empty string, then the current date is assumed.
-func New(d string) (*Calendar, error) {
+func New(d, subject, secret string) (*Calendar, error) {
 	date, now := time.Now(), time.Now()
 	if d != "" {
 		var err error
@@ -202,7 +205,7 @@ func New(d string) (*Calendar, error) {
 		}
 	}
 
-	cal := &Calendar{days: make(map[time.Time]AvailMeta), start: date}
+	cal := &Calendar{days: make(map[time.Time]AvailMeta), start: date, subject: subject, secret: secret}
 
 	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.UTC)
 	first := time.Date(date.Year(), date.Month(), 1, 0, 0, 0, 0, time.UTC)

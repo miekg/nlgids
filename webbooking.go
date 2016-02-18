@@ -11,7 +11,7 @@ import (
 	"github.com/miekg/nlgids/webbooking"
 )
 
-func WebBooking(w http.ResponseWriter, r *http.Request) (int, error) {
+func (n *NLgids) WebBooking(w http.ResponseWriter, r *http.Request) (int, error) {
 	tour, date := r.PostFormValue("tour"), r.PostFormValue("date")
 	name, email := r.PostFormValue("name"), r.PostFormValue("email")
 	phone, persons := r.PostFormValue("phone"), r.PostFormValue("persons")
@@ -29,6 +29,7 @@ func WebBooking(w http.ResponseWriter, r *http.Request) (int, error) {
 		}
 	}
 	// Validate date and return error if not available.
+	// use n.Config.Subject, n.Config.Secret
 
 	tour = ntour.NameOrNonExists(tour)
 
@@ -41,10 +42,10 @@ func WebBooking(w http.ResponseWriter, r *http.Request) (int, error) {
 		Persons: persons,
 		Message: message,
 	}
-	return sendBookingMail(booking)
+	return sendBookingMail(booking, n.Config.Recipients)
 }
 
-func sendBookingMail(b *webbooking.Booking) (int, error) {
+func sendBookingMail(b *webbooking.Booking, rcpts []string) (int, error) {
 	subject := b.MailSubject()
 	body, err := b.MailBody()
 	if err != nil {
@@ -52,7 +53,7 @@ func sendBookingMail(b *webbooking.Booking) (int, error) {
 		return http.StatusInternalServerError, err
 	}
 	mail := email.NewBooking(subject, body)
-	if err := mail.Do(); err != nil {
+	if err := mail.Do(rcpts); err != nil {
 		log.Printf("%s", err)
 		return http.StatusInternalServerError, err
 	}

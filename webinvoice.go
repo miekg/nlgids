@@ -9,7 +9,7 @@ import (
 	"github.com/miekg/nlgids/webinvoice"
 )
 
-func WebInvoiceTest(w http.ResponseWriter, r *http.Request) (int, error) {
+func (n *NLgids) WebInvoiceTest(w http.ResponseWriter, r *http.Request) (int, error) {
 	testInvoice := &webinvoice.Invoice{
 		Tour:     "Van Koninklijke Huize",
 		Persons:  2,
@@ -35,10 +35,10 @@ func WebInvoiceTest(w http.ResponseWriter, r *http.Request) (int, error) {
 		log.Printf("%s", err)
 		return http.StatusInternalServerError, err
 	}
-	return sendInvoice(testInvoice, pdf)
+	return sendInvoice(testInvoice, pdf, n.Config.Recipients)
 }
 
-func sendInvoice(i *webinvoice.Invoice, pdf []byte) (int, error) {
+func sendInvoice(i *webinvoice.Invoice, pdf []byte, rcpts []string) (int, error) {
 	subject := i.MailSubject()
 	body, err := i.MailBody()
 	if err != nil {
@@ -47,7 +47,7 @@ func sendInvoice(i *webinvoice.Invoice, pdf []byte) (int, error) {
 	}
 
 	mail := email.NewInvoice(subject, body, i.FileName, pdf)
-	if err := mail.Do(); err != nil {
+	if err := mail.Do(rcpts); err != nil {
 		log.Printf("%s", err)
 		return http.StatusInternalServerError, err
 	}

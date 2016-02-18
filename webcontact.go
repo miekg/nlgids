@@ -10,7 +10,7 @@ import (
 	"github.com/miekg/nlgids/webcontact"
 )
 
-func WebContact(w http.ResponseWriter, r *http.Request) (int, error) {
+func (n *NLgids) WebContact(w http.ResponseWriter, r *http.Request) (int, error) {
 	name, email := r.PostFormValue("name"), r.PostFormValue("email")
 	phone, persons := r.PostFormValue("phone"), r.PostFormValue("persons")
 	message := r.PostFormValue("message")
@@ -34,10 +34,10 @@ func WebContact(w http.ResponseWriter, r *http.Request) (int, error) {
 		Persons: persons,
 		Message: message,
 	}
-	return sendContactMail(contact)
+	return sendContactMail(contact, n.Config.Recipients)
 }
 
-func sendContactMail(c *webcontact.Contact) (int, error) {
+func sendContactMail(c *webcontact.Contact, rcpts []string) (int, error) {
 	subject := c.MailSubject()
 	body, err := c.MailBody()
 	if err != nil {
@@ -45,7 +45,7 @@ func sendContactMail(c *webcontact.Contact) (int, error) {
 		return http.StatusInternalServerError, err
 	}
 	mail := email.NewContact(subject, body)
-	if err := mail.Do(); err != nil {
+	if err := mail.Do(rcpts); err != nil {
 		log.Printf("%s", err)
 		return http.StatusInternalServerError, err
 	}

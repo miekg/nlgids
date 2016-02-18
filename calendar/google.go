@@ -10,12 +10,10 @@ import (
 	gcal "google.golang.org/api/calendar/v3"
 )
 
-var (
-	subject = "miek@miek.nl" // ans@nlgids.london
-	secret  = "/opt/etc/NLgids-fcbeb7928cdb.json"
-)
+// subject = "miek@miek.nl" // ans@nlgids.london
+// secret  = "/opt/etc/NLgids-fcbeb7928cdb.json"
 
-func client() (*http.Client, error) {
+func client(subject, secret string) (*http.Client, error) {
 	b, err := ioutil.ReadFile(secret)
 	if err != nil {
 		return nil, err
@@ -30,16 +28,17 @@ func client() (*http.Client, error) {
 	return client, nil
 }
 
+// Diff. name
 // FreeBusy returns true if there is an all-day event on the the date d (YYYY-MM-DD).
-func FreeBusy(d string) (bool, error) {
-	// Check this one date
-	return true, nil
-}
+// func (c *Calendar) FreeBusy(d string) (bool, error) {
+	// // Check this one date
+	// return true, nil
+// }
 
 // FreeBusy will retrieve all evens for this Calendar and mark each day as either free
 // or busy depending on the All-Day events in the Google Calendar.
 func (c *Calendar) FreeBusy() error {
-	client, err := client()
+	client, err := client(c.subject, c.secret)
 	if err != nil {
 		return err
 	}
