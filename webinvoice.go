@@ -24,9 +24,9 @@ func (n *NLgids) WebInvoiceTest(w http.ResponseWriter, r *http.Request) (int, er
 		How:      "Ik sta buiten de de fontein om",
 	}
 
-	tmpl := path.Join(templateDir, webinvoice.DefaultTemplate)
+	tmpl := path.Join(n.Config.Template, webinvoice.DefaultTemplate)
 
-	pdf, err := testInvoice.Create(templateDir, tmpl)
+	pdf, err := testInvoice.Create(n.Config.Template, tmpl)
 	if err != nil {
 		log.Printf("%s", err)
 		return http.StatusInternalServerError, err

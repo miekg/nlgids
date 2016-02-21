@@ -60,6 +60,11 @@ func nlgidsParse(c *setup.Controller) (*Config, error) {
 				if err != nil {
 					return nil, fmt.Errorf("nlgids: secret file must be readable: %s", err)
 				}
+			case "template":
+				if !c.NextArg() {
+					return nil, c.ArgErr()
+				}
+				config.Template = c.Val()
 			}
 		}
 	}
