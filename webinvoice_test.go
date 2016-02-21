@@ -70,7 +70,7 @@ func TestInvoiceCreate(t *testing.T) {
 	if mail.Subject != "[NLgids] Formulier \"Christel Achternaam\"" {
 		t.Fatal("wrong email Subject")
 	}
-	if mail.From != "nlgids@nlgids.london" {
+	if mail.From != "" {  // Set in mail.Do()
 		t.Fatal("wrong email From")
 	}
 	if len(mail.Cc) != 0 {
