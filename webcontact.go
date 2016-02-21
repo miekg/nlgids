@@ -1,7 +1,6 @@
 package nlgids
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -42,12 +41,10 @@ func sendContactMail(c *webcontact.Contact, rcpts []string) (int, error) {
 	subject := c.MailSubject()
 	body, err := c.MailBody()
 	if err != nil {
-		log.Printf("%s", err)
 		return http.StatusInternalServerError, err
 	}
 	mail := email.NewContact(subject, body)
 	if err := mail.Do(rcpts); err != nil {
-		log.Printf("%s", err)
 		return http.StatusInternalServerError, err
 	}
 	return http.StatusOK, nil

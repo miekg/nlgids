@@ -1,7 +1,6 @@
 package nlgids
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -50,12 +49,10 @@ func sendBookingMail(b *webbooking.Booking, rcpts []string) (int, error) {
 	subject := b.MailSubject()
 	body, err := b.MailBody()
 	if err != nil {
-		log.Printf("%s", err)
 		return http.StatusInternalServerError, err
 	}
 	mail := email.NewBooking(subject, body)
 	if err := mail.Do(rcpts); err != nil {
-		log.Printf("%s", err)
 		return http.StatusInternalServerError, err
 	}
 	return http.StatusOK, nil

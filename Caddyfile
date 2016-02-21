@@ -1,0 +1,22 @@
+http://localhost:2015 {
+    root /opt/www/nlgids.london
+
+    log stderr
+    errors stderr
+
+    ext .html
+    gzip
+
+    nlgids {
+        recipients ans@nlgids.london miek@miek.nl
+        subject ans@nlgids.london
+        secret /home/miek/adm/NLgids-fcbeb7928cdb.json
+        template /opt/tmpl/nlgids.london
+        tours /opt/www/nlgids.london/tours.json
+    }
+
+    internal /include
+    internal /md
+
+    templates /
+}

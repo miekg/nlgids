@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
-	"log"
 	"sort"
 	"time"
 )
@@ -107,7 +106,7 @@ func (c *Calendar) heading() string {
 }
 
 // Header returns the header of the calendar.
-func (c *Calendar) Header() string {
+func (c *Calendar) Header() (string, error) {
 	month := c.start.Month()
 
 	prev := c.start.AddDate(0, -1, 0)
@@ -124,14 +123,14 @@ func (c *Calendar) Header() string {
 	t := template.New("Header template")
 	t, err := t.Parse(templ)
 	if err != nil {
-		log.Printf("%s", err)
+		return "", err
 	}
 	buf := &bytes.Buffer{}
 	err = t.Execute(buf, head)
 	if err != nil {
-		log.Printf("%s", err)
+		return "", err
 	}
-	return buf.String()
+	return buf.String(), nil
 }
 
 func (c *Calendar) Footer() string {
@@ -160,7 +159,7 @@ func (c *Calendar) entry(t time.Time) string {
 }
 
 func (c *Calendar) HTML() string {
-	s := c.Header()
+	s, _ := c.Header()
 	s += c.html()
 	s += c.Footer()
 	return s

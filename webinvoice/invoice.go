@@ -17,7 +17,7 @@ type Invoice struct {
 	Tour     string
 	Persons  int
 	Time     string
-	Duration float64 // hours
+	Duration string // 2:00
 	Cost     float64
 	Date     string // YYYY/MM/DD form
 	Name     string
