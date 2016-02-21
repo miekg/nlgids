@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/miekg/nlgids/email"
+	ntour "github.com/miekg/nlgids/tour"
 	"github.com/miekg/nlgids/webinvoice"
 )
 
@@ -36,6 +37,9 @@ func (n *NLgids) WebInvoice(w http.ResponseWriter, r *http.Request) (int, error)
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
+
+	// Get the real the name of the tour.
+	tour = ntour.NameOrNonExists(tour, n.Config.Tours)
 
 	invoice := &webinvoice.Invoice{
 		Tour:     tour,
