@@ -7,7 +7,7 @@ import (
 )
 
 func TestCalendarNow(t *testing.T) {
-	c, err := calendar.New("")
+	c, err := calendar.New("", "", "")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -16,7 +16,7 @@ func TestCalendarNow(t *testing.T) {
 }
 
 func TestCalendarHistoric(t *testing.T) {
-	c, err := calendar.New("2015-12-01")
+	c, err := calendar.New("2015-12-01", "", "")
 	if err != nil {
 		t.Fatal(err)
 	}

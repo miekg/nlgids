@@ -52,7 +52,7 @@ func TestTexFiles(t *testing.T) {
 }
 
 func TestInvoiceCreate(t *testing.T) {
-	invoice := path.Join(templateDir, webinvoice.DefaultTemplate)
+	invoice := path.Join(templateDir, webinvoice.Template)
 
 	i := newInvoice()
 	pdf, err := i.Create(templateDir, invoice)

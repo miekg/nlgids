@@ -7,6 +7,8 @@ import (
 	"github.com/miekg/nlgids/webcontact"
 )
 
+var templateDir = "/opt/tmpl/nlgids.london"
+
 func newContact() *webcontact.Contact {
 	return &webcontact.Contact{
 		Name:    "Miek Gieben",
@@ -28,13 +30,13 @@ func TestContactCreate(t *testing.T) {
 	if mail.Subject != "[NLgids] Contact van \"Miek Gieben\"" {
 		t.Fatal("wrong email Subject")
 	}
-	if mail.From != "nlgids@nlgids.london" {
-		t.Fatal("wrong email From")
+	if mail.From != "" { // Should be empty, we put these value when to do mail.Do()
+		t.Fatalf("wrong email From: %s", mail.From)
 	}
 	if len(mail.Cc) != 0 {
-		t.Fatal("wrong email Cc")
+		t.Fatalf("wrong email Cc: %d", len(mail.Cc))
 	}
-	if err := mail.Do(); err != nil {
+	if err := mail.Do([]string{"klm@miek.nl"}); err != nil {
 		t.Fatalf("can't send mail %s: ", err)
 	}
 }

@@ -9,7 +9,7 @@ import (
 	"text/template"
 )
 
-const DefaultTemplate = "invoice.tex.tmpl"
+const Template = "invoice.tex.tmpl"
 
 var funcMap = template.FuncMap{
 	"half":          Half,
