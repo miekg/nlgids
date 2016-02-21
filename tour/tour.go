@@ -41,31 +41,22 @@ func jsonToTour(t Tours) map[string]string {
 	return m
 }
 
-func (n *NLgids) NewTour() map[string]string {
-	t, _ := parse(n.Config.Tours)
+func NewTour(file string) map[string]string {
+	t, _ := parse(file)
 	m := jsonToTour(t)
 	return m
 }
 
 // Tour holds the conversion from tour ID to the Dutch name.
-var Tour = map[string]string{
-	"walks/koninklijke": "Van Koninklijke Huize",
-	"walks/romeinen":    "Romeinen en Bankiers",
-	"walks/dutch":       "Nederlandse in de City",
-	"walks/custom":      "Wandeling Op Maat",
-
-	"cycling/london": "London Tour",
-	"cycling/secret": "Secret Tour",
-	"cycling/custom": "Fietstocht Op Maat",
-
-	"specials/bus":    "Afternoon Tea Bustour",
-	"specials/gin":    "Gin and Cocktails",
-	"specials/happen": "Happen en Stappen",
-}
+var Tour = map[string]string{}
 
 // TourOrNonExists returns either the Dutch name of the tour keyed
 // by key or the string "<niet bestaand>".
-func NameOrNonExists(key string) string {
+func NameOrNonExists(key, file string) string {
+	if Tour == nil {
+		Tour = NewTour(file)
+	}
+
 	if v, ok := Tour[key]; ok {
 		return v
 	}

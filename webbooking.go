@@ -11,8 +11,7 @@ import (
 	"github.com/miekg/nlgids/webbooking"
 )
 
-// WebBooking sends an email to the recipients with a booking made from the
-// website.
+// WebBooking sends an email to the recipients with a booking made from the website.
 func (n *NLgids) WebBooking(w http.ResponseWriter, r *http.Request) (int, error) {
 	tour, date := r.PostFormValue("tour"), r.PostFormValue("date")
 	name, email := r.PostFormValue("name"), r.PostFormValue("email")
@@ -33,7 +32,7 @@ func (n *NLgids) WebBooking(w http.ResponseWriter, r *http.Request) (int, error)
 	// Validate date and return error if not available.
 	// use n.Config.Subject, n.Config.Secret
 
-	tour = ntour.NameOrNonExists(tour)
+	tour = ntour.NameOrNonExists(tour, n.Config.Tours)
 
 	booking := &webbooking.Booking{
 		Tour:    tour,

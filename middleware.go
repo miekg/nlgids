@@ -25,7 +25,7 @@ type Config struct {
 	Subject    string   // Calendar auth subject.
 	Secret     string   // File containing the google service account secret.
 	Template   string   // Directory where the templates live.
-	Tours      string   // tours.json location, defaults to /tours.json
+	Tours      string   // tours.json location, defaults to /opt/www/nlgids.london/tours.json
 }
 
 func Setup(c *setup.Controller) (middleware.Middleware, error) {
@@ -45,7 +45,7 @@ func Setup(c *setup.Controller) (middleware.Middleware, error) {
 // secret /opt/etc/NLgids-fcbeb7928cdb.json
 func nlgidsParse(c *setup.Controller) (*Config, error) {
 	config := new(Config)
-	config.Tours = "/tours.json"
+	config.Tours = "/opt/www/nlgids.london/tours.json"
 	for c.Next() {
 		for c.NextBlock() {
 			switch c.Val() {
