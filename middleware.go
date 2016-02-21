@@ -14,7 +14,9 @@ type Config struct {
 	Recipients []string // Who gets nlgids email?
 
 	Subject string // Calendar subject.
-	Secret  string // File containing the google service account secret
+	Secret  string // File containing the google service account secret.
+
+	Template string // Directory where the templates live.
 }
 
 func Setup(c *setup.Controller) (middleware.Middleware, error) {
