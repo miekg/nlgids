@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 )
 
-const nonExists = "<niet bestaand>"
+const nonExists = "niet bestaand"
 
 type Definition struct {
 	ID   string
@@ -53,10 +53,9 @@ var Tour = map[string]string{}
 // TourOrNonExists returns either the Dutch name of the tour keyed
 // by key or the string "<niet bestaand>".
 func NameOrNonExists(key, file string) string {
-	if Tour == nil {
+	if len(Tour) == 0 {
 		Tour = NewTour(file)
 	}
-
 	if v, ok := Tour[key]; ok {
 		return v
 	}

@@ -1,19 +1,21 @@
 package nlgids
 
 import (
+	"io/ioutil"
 	"path"
 	"testing"
 
 	"github.com/miekg/nlgids/email"
+	"github.com/miekg/nlgids/tour"
 	"github.com/miekg/nlgids/webinvoice"
 )
 
 func newInvoice() *webinvoice.Invoice {
-	return &webinvoice.Invoice{
-		Tour:     "Van Koninklijke Huize",
+	i := &webinvoice.Invoice{
+		Tour:     "walks/koninklijke",
 		Persons:  2,
 		Time:     "11.00",
-		Duration: 2.0,
+		Duration: "2.0",
 		Cost:     50.0,
 		Date:     "2015/12/10",
 		Name:     "Christel",
@@ -22,6 +24,8 @@ func newInvoice() *webinvoice.Invoice {
 		Where:    "Green Park metro station",
 		How:      "Ik sta buiten de de fontein om",
 	}
+	i.Tour = tour.NameOrNonExists(i.Tour, "/home/miek/html/nlgids.london/tours.json")
+	return i
 }
 
 func TestInvoiceFill(t *testing.T) {
@@ -62,6 +66,8 @@ func TestInvoiceCreate(t *testing.T) {
 	if len(pdf) == 0 {
 		t.Fatal("no pdf produced")
 	}
+	ioutil.WriteFile("/tmp/test.pdf", pdf, 0644)
+
 	body, err := i.MailBody()
 	if err != nil {
 		t.Fatal(err)
@@ -70,7 +76,7 @@ func TestInvoiceCreate(t *testing.T) {
 	if mail.Subject != "[NLgids] Formulier \"Christel Achternaam\"" {
 		t.Fatal("wrong email Subject")
 	}
-	if mail.From != "" {  // Set in mail.Do()
+	if mail.From != "" { // Set in mail.Do()
 		t.Fatal("wrong email From")
 	}
 	if len(mail.Cc) != 0 {
