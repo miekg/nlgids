@@ -22,22 +22,27 @@ func (n *NLgids) WebInvoice(w http.ResponseWriter, r *http.Request) (int, error)
 
 	if tour == "" || personsStr == "" || time == "" || date == "" || name == "" ||
 		fullname == "" || email == "" {
+		log.Printf("%s", "nlgids: all empty")
 		return http.StatusBadRequest, nil
 	}
 
 	if !strings.Contains(email, "@") {
+		log.Printf("%s", "nlgids: invalid email")
 		return http.StatusBadRequest, nil
 	}
 	duration, err := strconv.ParseFloat(durationStr, 64)
 	if err != nil {
+		log.Printf("%s", err)
 		return http.StatusBadRequest, nil
 	}
 	cost, err := strconv.ParseFloat(costStr, 64)
 	if err != nil {
+		log.Printf("%s", err)
 		return http.StatusBadRequest, nil
 	}
 	persons, err := strconv.Atoi(personsStr)
 	if err != nil {
+		log.Printf("%s", err)
 		return http.StatusBadRequest, nil
 	}
 
