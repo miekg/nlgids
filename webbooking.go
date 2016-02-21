@@ -18,14 +18,14 @@ func (n *NLgids) WebBooking(w http.ResponseWriter, r *http.Request) (int, error)
 	message := r.PostFormValue("message")
 
 	if name == "" || email == "" {
-		return http.StatusBadRequest, nil
+		return http.StatusBadRequest, fmt.Errorf("nlgids: all empty")
 	}
 	if !strings.Contains(email, "@") {
-		return http.StatusBadRequest, nil
+		return http.StatusBadRequest, fmt.Errorf("nlgids: invalid email")
 	}
 	if persons != "" {
 		if _, err := strconv.Atoi(persons); err != nil {
-			return http.StatusBadRequest, nil
+			return http.StatusBadRequest, err
 		}
 	}
 	// Validate date and return error if not available.
