@@ -10,13 +10,20 @@ import (
 	"github.com/mholt/caddy/middleware"
 )
 
+// Config holds the Caddy file directives.
+// Typically these will look like:
+//
+// nlgids {
+//	   recipients ans@nlgids.london miek@miek.nl
+//	   subject ans@nlgids.london
+//	   secret /opt/etc/NLgids-fcbeb7928cdb.json
+//	   template /opt/tmpl/nlgids.london
+// }
 type Config struct {
-	Recipients []string // Who gets nlgids email?
-
-	Subject string // Calendar subject.
-	Secret  string // File containing the google service account secret.
-
-	Template string // Directory where the templates live.
+	Recipients []string // Who gets nlgids email.
+	Subject    string   // Calendar auth subject.
+	Secret     string   // File containing the google service account secret.
+	Template   string   // Directory where the templates live.
 }
 
 func Setup(c *setup.Controller) (middleware.Middleware, error) {

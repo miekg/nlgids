@@ -10,6 +10,7 @@ import (
 	"github.com/miekg/nlgids/webcontact"
 )
 
+// WebBooking sends an email to the recipients from a contact form from the website.
 func (n *NLgids) WebContact(w http.ResponseWriter, r *http.Request) (int, error) {
 	name, email := r.PostFormValue("name"), r.PostFormValue("email")
 	phone, persons := r.PostFormValue("phone"), r.PostFormValue("persons")

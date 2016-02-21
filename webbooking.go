@@ -11,6 +11,8 @@ import (
 	"github.com/miekg/nlgids/webbooking"
 )
 
+// WebBooking sends an email to the recipients with a booking made from the
+// website.
 func (n *NLgids) WebBooking(w http.ResponseWriter, r *http.Request) (int, error) {
 	tour, date := r.PostFormValue("tour"), r.PostFormValue("date")
 	name, email := r.PostFormValue("name"), r.PostFormValue("email")

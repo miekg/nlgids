@@ -9,6 +9,7 @@ import (
 	"github.com/miekg/nlgids/webinvoice"
 )
 
+// WebInvoiceTest sends an email to the recipients from a invoice form from the website.
 func (n *NLgids) WebInvoiceTest(w http.ResponseWriter, r *http.Request) (int, error) {
 	testInvoice := &webinvoice.Invoice{
 		Tour:     "Van Koninklijke Huize",

@@ -1,6 +1,7 @@
 package tour
 
 // Must be kept in sync with /tours.json of the NLgids site.
+// TODO(miek): parse tours.json and populate this on startup?
 
 const nonExists = "<niet bestaand>"
 

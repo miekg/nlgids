@@ -7,6 +7,8 @@ import (
 	"github.com/miekg/nlgids/calendar"
 )
 
+// WebCalendar returns a calendar in table form. All-day events from the
+// subject are greyed out as are pasted days.
 func (n *NLgids) WebCalendar(w http.ResponseWriter, r *http.Request) (int, error) {
 	date := r.PostFormValue("date") // YYYY-MM-DD, empty is allowed.
 	c, err := calendar.New(date, n.Config.Subject, n.Config.Secret)
