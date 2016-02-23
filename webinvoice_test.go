@@ -10,6 +10,8 @@ import (
 	"github.com/miekg/nlgids/webinvoice"
 )
 
+const TestFileName = "reservering-10-december-2015.pdf"
+
 func newInvoice() *webinvoice.Invoice {
 	i := &webinvoice.Invoice{
 		Tour:     "walks/koninklijke",
@@ -39,6 +41,9 @@ func TestInvoiceFill(t *testing.T) {
 	}
 	if i.FileName == "" {
 		t.Fatal("should be non empty: 'FileName'")
+	}
+	if i.FileName != TestFileName {
+		t.Fatalf("filename should be %s, got %s", TestFileName, i.FileName)
 	}
 	if i.Rate == 0 {
 		t.Fatal("should be non empty: 'Rate'")

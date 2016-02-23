@@ -55,7 +55,7 @@ func (i *Invoice) FillOut() (err error) {
 	if i.Day, err = date.NL("--date", i.Date, "+%A"); err != nil {
 		return err
 	}
-	if i.FileName, err = date.NL("+reservering-%d-%B-%Y.pdf"); err != nil {
+	if i.FileName, err = date.NL("--date", i.Date, "+reservering-%d-%B-%Y.pdf"); err != nil {
 		return err
 	}
 	if i.Date, err = date.NL("--date", i.Date, "+%d %B %Y"); err != nil {
