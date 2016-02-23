@@ -18,7 +18,7 @@ import (
 //	   subject ans@nlgids.london
 //	   secret /opt/etc/NLgids-fcbeb7928cdb.json
 //	   template /opt/tmpl/nlgids.london
-//	   Tours /tours.json // site root?
+//	   tours /tours.json // site root?
 // }
 type Config struct {
 	Recipients []string // Who gets nlgids email.

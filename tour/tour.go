@@ -41,6 +41,7 @@ func jsonToTour(t Tours) map[string]string {
 	return m
 }
 
+// NewTour returns the id to tour mapping based on the tours.json file.
 func NewTour(file string) map[string]string {
 	t, _ := parse(file)
 	m := jsonToTour(t)
@@ -50,8 +51,8 @@ func NewTour(file string) map[string]string {
 // Tour holds the conversion from tour ID to the Dutch name.
 var Tour = map[string]string{}
 
-// TourOrNonExists returns either the Dutch name of the tour keyed
-// by key or the string "<niet bestaand>".
+// NameOrNonExists returns either the Dutch name of the tour keyed
+// by key or the string "niet bestaand".
 func NameOrNonExists(key, file string) string {
 	if len(Tour) == 0 {
 		Tour = NewTour(file)

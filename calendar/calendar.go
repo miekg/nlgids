@@ -22,6 +22,7 @@ type (
 	Available int
 	Meta      int
 
+	// The availabilty for a specific date.
 	AvailMeta struct {
 		Available
 		Meta
@@ -158,6 +159,7 @@ func (c *Calendar) entry(t time.Time) string {
 	return s
 }
 
+// HTML returns the calendar in a string containing HTML.
 func (c *Calendar) HTML() string {
 	s, _ := c.Header()
 	s += c.html()
