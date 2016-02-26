@@ -44,7 +44,7 @@ func sendContactMail(c *webcontact.Contact, rcpts []string) (int, error) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	mail := email.NewContact(i.Email, subject, body)
+	mail := email.NewContact(c.Email, subject, body)
 	if err := mail.Do(rcpts); err != nil {
 		return http.StatusInternalServerError, err
 	}

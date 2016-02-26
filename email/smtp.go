@@ -18,7 +18,7 @@ const (
 
 var from = "nlgids@x64.atoom.net"
 
-func NewContact(from, subject, body *bytes.Buffer) *Message {
+func NewContact(from, subject string, body *bytes.Buffer) *Message {
 	m := NewMessage(nlgidsPrefix+subject, body.String())
 	m.ReplyTo = from
 	return m

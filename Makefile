@@ -8,7 +8,6 @@ customCaddy: *.go
 .PHONY:
 install: customCaddy
 	cp -f customCaddy /opt/bin
-	sudo setcap cap_net_bind_service=+ep /opt/bin/customCaddy
 
 .PHONY:
 restart:
