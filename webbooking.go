@@ -52,7 +52,7 @@ func sendBookingMail(b *webbooking.Booking, rcpts []string) (int, error) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	mail := email.NewBooking(subject, body)
+	mail := email.NewBooking(from, subject, body)
 	if err := mail.Do(rcpts); err != nil {
 		return http.StatusInternalServerError, err
 	}

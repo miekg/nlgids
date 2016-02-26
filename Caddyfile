@@ -1,5 +1,5 @@
 http://localhost:2015 {
-    root /opt/www/nlgids.london
+    root /home/miek/html/nlgids.london
 
     log stderr
     errors stderr

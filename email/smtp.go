@@ -18,13 +18,15 @@ const (
 
 var from = "nlgids@x64.atoom.net"
 
-func NewContact(subject string, body *bytes.Buffer) *Message {
+func NewContact(from, subject, body *bytes.Buffer) *Message {
 	m := NewMessage(nlgidsPrefix+subject, body.String())
+	m.ReplyTo = from
 	return m
 }
 
-func NewBooking(subject string, body *bytes.Buffer) *Message {
+func NewBooking(from, subject string, body *bytes.Buffer) *Message {
 	m := NewMessage(nlgidsPrefix+subject, body.String())
+	m.ReplyTo = from
 	return m
 }
 
