@@ -1,6 +1,7 @@
 all: customCaddy
 
 customCaddy: *.go
+	caddyext install prometheus:github.com/miekg/caddy-prometheus
 	caddyext install nlgids:github.com/miekg/nlgids
 	caddyext stack
 	caddyext build
