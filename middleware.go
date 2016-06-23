@@ -6,9 +6,16 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mholt/caddy/caddy/setup"
-	"github.com/mholt/caddy/middleware"
+	"github.com/mholt/caddy"
+	"github.com/mholt/caddy/caddyhttp/httpserver"
 )
+
+func init() {
+	caddy.RegisterPlugin("nlgids", caddy.Plugin{
+		ServerType: "http",
+		Action:     setup,
+	})
+}
 
 // Config holds the Caddy file directives.
 // Typically these will look like:
@@ -28,22 +35,23 @@ type Config struct {
 	Tours      string   // tours.json location, defaults to /opt/www/nlgids.london/tours.json
 }
 
-func Setup(c *setup.Controller) (middleware.Middleware, error) {
+func setup(c *caddy.Controller) error {
 	config, err := nlgidsParse(c)
 	if err != nil {
-		return nil, err
+		return err
 	}
-
-	return func(next middleware.Handler) middleware.Handler {
+	httpserver.GetConfig(c).AddMiddleware(func(next httpserver.Handler) httpserver.Handler {
 		return &NLgids{Next: next, Config: config}
-	}, nil
+	})
+
+	return nil
 }
 
 // nlgidsParse will parse the following directives.
 // recipients ans@nlgids.london miek@miek.nl
 // subject ans@nlgids.london
 // secret /opt/etc/NLgids-fcbeb7928cdb.json
-func nlgidsParse(c *setup.Controller) (*Config, error) {
+func nlgidsParse(c *caddy.Controller) (*Config, error) {
 	config := new(Config)
 	config.Tours = "/opt/www/nlgids.london/tours.json"
 	for c.Next() {
@@ -88,9 +96,9 @@ func nlgidsParse(c *setup.Controller) (*Config, error) {
 	return config, nil
 }
 
-// NLgids is the NLgids middleware handler.
+// NLgids is the NLgids handler.
 type NLgids struct {
-	Next   middleware.Handler
+	Next   httpserver.Handler
 	Config *Config
 }
 
@@ -98,7 +106,7 @@ func (n *NLgids) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) 
 	if r.Method != "POST" {
 		return n.Next.ServeHTTP(w, r)
 	}
-	path := middleware.Path(r.URL.Path)
+	path := httpserver.Path(r.URL.Path)
 	if !path.Matches("/api") {
 		return n.Next.ServeHTTP(w, r)
 	}

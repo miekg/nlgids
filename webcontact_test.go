@@ -25,7 +25,7 @@ func TestContactCreate(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	mail := email.NewContact(subject, body)
+	mail := email.NewContact(c.Email, subject, body)
 
 	if mail.Subject != "[NLgids] Contact van \"Miek Gieben\"" {
 		t.Fatal("wrong email Subject")

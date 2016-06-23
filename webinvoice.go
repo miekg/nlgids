@@ -2,6 +2,7 @@ package nlgids
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"path"
 	"strconv"
@@ -40,6 +41,8 @@ func (n *NLgids) WebInvoice(w http.ResponseWriter, r *http.Request) (int, error)
 
 	// Get the real the name of the tour.
 	tour = ntour.NameOrNonExists(tour, n.Config.Tours)
+
+	log.Printf("[INFO] NLgids tour: %s:%s:%s:%s:%s:%f", tour, name, email, personsStr, date, cost)
 
 	invoice := &webinvoice.Invoice{
 		Tour:     tour,
