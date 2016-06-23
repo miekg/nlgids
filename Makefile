@@ -1,19 +1,9 @@
-all: customCaddy
+all: Caddy
 
-customCaddy: *.go
-	caddyext install prometheus:github.com/miekg/caddy-prometheus
-	caddyext install nlgids:github.com/miekg/nlgids
-	caddyext stack
-	caddyext build
+.PHONY: Caddy
+Caddy: *.go
+	@echo "edit caddy/caddymain/run.go and import this 'nlgids' middleware"
 
-.PHONY:
-install: customCaddy
-	cp -f customCaddy /opt/bin
-
-.PHONY:
+.PHONY: restart
 restart:
 	sudo systemctl restart caddy
-
-.PHONY:
-clean:
-	rm -f customCaddy
