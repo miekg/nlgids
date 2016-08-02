@@ -31,8 +31,8 @@ func client(subject, secret string) (*http.Client, error) {
 // Diff. name
 // FreeBusy returns true if there is an all-day event on the the date d (YYYY-MM-DD).
 // func (c *Calendar) FreeBusy(d string) (bool, error) {
-	// // Check this one date
-	// return true, nil
+// // Check this one date
+// return true, nil
 // }
 
 // FreeBusy will retrieve all evens for this Calendar and mark each day as either free

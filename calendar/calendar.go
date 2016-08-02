@@ -79,7 +79,7 @@ func Date(t time.Time) string {
 }
 
 // Calendar holds the HTML that makes up the calendar. Each
-// day is indexed by the 12 o' clock night time time.Time.
+// day is indexed by the 12 o' clock night time as a time.Time.
 // All date are in the UTC timezone.
 type Calendar struct {
 	days  map[time.Time]AvailMeta
