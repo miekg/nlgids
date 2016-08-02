@@ -97,6 +97,9 @@ func (t times) Len() int           { return len(t) }
 func (t times) Less(i, j int) bool { return t[i].Before(t[j]) }
 func (t times) Swap(i, j int)      { t[i], t[j] = t[j], t[i] }
 
+// Days returns the days of this calendar.
+func (c *Calendar) Days() map[time.Time]AvailMeta { return c.days }
+
 func (c *Calendar) heading() string {
 	s := `<div class="row">
 <div class="col-md-10 col-md-offset-1">

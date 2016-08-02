@@ -37,6 +37,7 @@ func client(subject, secret string) (*http.Client, error) {
 
 // FreeBusy will retrieve all evens for this Calendar and mark each day as either free
 // or busy depending on the All-Day events in the Google Calendar.
+// TODO(miek): This works only for 1-day freebusy events, not for multiday events!
 func (c *Calendar) FreeBusy() error {
 	client, err := client(c.subject, c.secret)
 	if err != nil {
