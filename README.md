@@ -1,8 +1,8 @@
 # NLGIDS
 
 A public-private repo. You may fork and whatever, but this is some custom Caddy middleware for a
-website. This interacts with Google calendar and is capable of sending email, creating pdf, by
-filling out a text.Template and calling LaTeX and then sending that email.
+website. This interacts with Google calendar and is capable of sending email, creating PDFs, by
+filling out a text.Template and calling LaTeX.
 
 It is also capable of creating invoices for tours.
 
