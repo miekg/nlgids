@@ -2,6 +2,7 @@ package nlgids
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -43,6 +44,8 @@ func (n *NLgids) WebBooking(w http.ResponseWriter, r *http.Request) (int, error)
 		Persons: persons,
 		Message: message,
 	}
+	log.Printf("[INFO] NLgids booking: %s:%s:%s:%s:%s:%s:%s", tour, date, name, email, phone, persons, message)
+
 	return sendBookingMail(booking, n.Config.Recipients)
 }
 

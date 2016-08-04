@@ -2,6 +2,7 @@ package nlgids
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -35,6 +36,8 @@ func (n *NLgids) WebContact(w http.ResponseWriter, r *http.Request) (int, error)
 		Persons: persons,
 		Message: message,
 	}
+	log.Printf("[INFO] NLgids contact: %s:%s:%s:%s:%s", name, email, phone, persons, message)
+
 	return sendContactMail(contact, n.Config.Recipients)
 }
 

@@ -5,19 +5,30 @@ import (
 	"encoding/base64"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/smtp"
+	"os"
 	"path/filepath"
 	"strings"
 	"time"
 )
 
 const (
+	defaultName  = "deb"
 	server       = "localhost:25"
 	nlgidsPrefix = "[NLgids] "
 )
 
-// TODO(miek): this needs to be localhost (or) an option in the Caddyfile.
-var from = "nlgids@deb.atoom.net"
+var from = "nlgids@%s.atoom.net"
+
+func init() {
+	if name, err := os.Hostname(); err != nil {
+		fmt.Sprintf(from, name)
+	} else {
+		fmt.Sprintf(from, defaultName)
+	}
+	log.Printf("[INFO] NLgids localhost: %s", from)
+}
 
 func NewContact(from, subject string, body *bytes.Buffer) *Message {
 	m := NewMessage(nlgidsPrefix+subject, body.String())
