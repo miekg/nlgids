@@ -16,7 +16,7 @@ const (
 	nlgidsPrefix = "[NLgids] "
 )
 
-var from = "nlgids@x64.atoom.net"
+var from = "nlgids@deb.atoom.net"
 
 func NewContact(from, subject string, body *bytes.Buffer) *Message {
 	m := NewMessage(nlgidsPrefix+subject, body.String())
