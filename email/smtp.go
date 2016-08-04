@@ -16,6 +16,7 @@ const (
 	nlgidsPrefix = "[NLgids] "
 )
 
+// TODO(miek): this needs to be localhost (or) an option in the Caddyfile.
 var from = "nlgids@deb.atoom.net"
 
 func NewContact(from, subject string, body *bytes.Buffer) *Message {
