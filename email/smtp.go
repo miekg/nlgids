@@ -23,9 +23,9 @@ var from = "nlgids@%s.atoom.net"
 
 func init() {
 	if name, err := os.Hostname(); err != nil {
-		fmt.Sprintf(from, name)
+		from = fmt.Sprintf(from, name)
 	} else {
-		fmt.Sprintf(from, defaultName)
+		from = fmt.Sprintf(from, defaultName)
 	}
 	log.Printf("[INFO] NLgids localhost: %s", from)
 }
