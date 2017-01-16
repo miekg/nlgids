@@ -56,6 +56,11 @@ func (b *Booking) MailBody() (*bytes.Buffer, error) {
 }
 
 func (b *Booking) MailSubject() string {
-	subject := "Boeking op " + b.Date + " van \"" + b.Name + "\""
+	subject := ""
+	if b.Date == "" {
+		subject = "Boeking van \"" + b.Name + "\""
+	} else {
+		subject = "Boeking op " + b.Date + " van \"" + b.Name + "\""
+	}
 	return subject
 }
