@@ -35,6 +35,7 @@ func escapeTeX(s string) string {
 	s = strings.Replace(s, `&`, `\&`, -1)
 	s = strings.Replace(s, `\`, `\\`, -1)
 	s = strings.Replace(s, `%`, `\%`, -1)
+	s = strings.Replace(s, `_`, `\_`, -1)
 	return s
 }
 
@@ -44,6 +45,7 @@ func (i *Invoice) escapeTex() {
 	i.Tour = escapeTeX(i.Tour)
 	i.Where = escapeTeX(i.Where)
 	i.How = escapeTeX(i.How)
+	i.Email = escapeTeX(i.Email)
 }
 
 // FillOut fills in these missing fields in i, such as:

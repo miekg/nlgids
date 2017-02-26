@@ -22,7 +22,7 @@ func newInvoice() *webinvoice.Invoice {
 		Date:     "2015/12/10",
 		Name:     "Christel",
 		FullName: "Christel Achternaam",
-		Email:    "christel@miek.nl",
+		Email:    "christel_bla@miek.nl",
 		Where:    "Green Park metro station",
 		How:      "Ik sta buiten de de fontein om",
 	}
