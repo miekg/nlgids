@@ -56,6 +56,7 @@ func (n *NLgids) WebInvoice(w http.ResponseWriter, r *http.Request) (int, error)
 		Email:    email,
 		Where:    where,
 		How:      how,
+		Kernmerk: webinvoice.Kernmerk(time.Now().UTC()),
 	}
 
 	tmpl := path.Join(n.Config.Template, webinvoice.Template)
