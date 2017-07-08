@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"path"
 	"strconv"
-	"strings"
+	"time"
 
 	"github.com/miekg/nlgids/email"
 	ntour "github.com/miekg/nlgids/tour"
@@ -16,20 +16,17 @@ import (
 // WebInvoice sends an email to the recipients from a invoice form from the website.
 func (n *NLgids) WebInvoice(w http.ResponseWriter, r *http.Request) (int, error) {
 	tour, personsStr := r.PostFormValue("tour"), r.PostFormValue("persons")
-	time, duration := r.PostFormValue("time"), r.PostFormValue("duration")
+	t, duration := r.PostFormValue("time"), r.PostFormValue("duration")
 	costStr, date := r.PostFormValue("cost"), r.PostFormValue("date")
 	name, fullname := r.PostFormValue("name"), r.PostFormValue("fullname")
 	email := r.PostFormValue("email")
 	where, how := r.PostFormValue("where"), r.PostFormValue("how")
 
-	if tour == "" || personsStr == "" || time == "" || date == "" || name == "" ||
-		fullname == "" || email == "" || duration == "" {
+	if tour == "" || personsStr == "" || t == "" || date == "" || name == "" ||
+		fullname == "" || duration == "" {
 		return http.StatusBadRequest, fmt.Errorf("nlgids: all empty")
 	}
 
-	if !strings.Contains(email, "@") {
-		return http.StatusBadRequest, fmt.Errorf("nlgids: invalid email")
-	}
 	cost, err := strconv.ParseFloat(costStr, 64)
 	if err != nil {
 		return http.StatusBadRequest, err
@@ -47,7 +44,7 @@ func (n *NLgids) WebInvoice(w http.ResponseWriter, r *http.Request) (int, error)
 	invoice := &webinvoice.Invoice{
 		Tour:     tour,
 		Persons:  persons,
-		Time:     time,
+		Time:     t,
 		Duration: duration,
 		Cost:     cost,
 		Date:     date,
@@ -56,7 +53,7 @@ func (n *NLgids) WebInvoice(w http.ResponseWriter, r *http.Request) (int, error)
 		Email:    email,
 		Where:    where,
 		How:      how,
-		Kernmerk: webinvoice.Kernmerk(time.Now().UTC()),
+		Kenmerk:  webinvoice.Kenmerk(time.Now().UTC()),
 	}
 
 	tmpl := path.Join(n.Config.Template, webinvoice.Template)
