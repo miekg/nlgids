@@ -24,9 +24,9 @@ type Invoice struct {
 	Date     string // YYYY/MM/DD form
 	Name     string
 	FullName string
-	Email    string
-	Where    string // where to pickup
-	How      string // ends in "om"
+	Email    string // Has become optional.
+	Where    string // Where to pickup.
+	How      string // Ends in "om".
 
 	Rate float64 // current GBP:EUR rate, autofill
 	Day  string  // autofill
@@ -47,7 +47,6 @@ func (i *Invoice) escapeTex() {
 	i.Tour = escapeTeX(i.Tour)
 	i.Where = escapeTeX(i.Where)
 	i.How = escapeTeX(i.How)
-	i.Email = escapeTeX(i.Email)
 }
 
 // FillOut fills in these missing fields in i, such as:

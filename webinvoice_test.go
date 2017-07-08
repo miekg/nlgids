@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"path"
 	"testing"
+	"time"
 
 	"github.com/miekg/nlgids/email"
 	"github.com/miekg/nlgids/tour"
@@ -25,6 +26,7 @@ func newInvoice() *webinvoice.Invoice {
 		Email:    "christel_bla@miek.nl",
 		Where:    "Green Park metro station",
 		How:      "Ik sta buiten de de fontein om",
+		Kenmerk:  webinvoice.Kenmerk(time.Now().UTC()),
 	}
 	i.Tour = tour.NameOrNonExists(i.Tour, "/home/miek/html/nlgids.london/tours.json")
 	return i
