@@ -9,7 +9,7 @@ import (
 func Kenmerk(now time.Time) string {
 	rand.Seed(time.Now().UnixNano())
 
-	t := now.Format("01022006")
+	t := now.Format("02012006")
 	letters := randString()
 
 	kenmerk := t + letters
