@@ -3,6 +3,7 @@ package nlgids
 import (
 	"io/ioutil"
 	"path"
+	"strings"
 	"testing"
 	"time"
 
@@ -80,7 +81,7 @@ func TestInvoiceCreate(t *testing.T) {
 		t.Fatal(err)
 	}
 	mail := email.NewInvoice(i.MailSubject(), body, i.FileName, pdf)
-	if mail.Subject != "[NLgids] Formulier \"Christel Achternaam\"" {
+	if strings.Contains("Christel Achternaam", mail.Subject) {
 		t.Fatal("wrong email Subject")
 	}
 	if mail.From != "" { // Set in mail.Do()
