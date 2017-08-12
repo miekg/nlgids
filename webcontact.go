@@ -20,9 +20,14 @@ func (n *NLgids) WebContact(w http.ResponseWriter, r *http.Request) (int, error)
 	if name == "" || email == "" || message == "" {
 		return http.StatusBadRequest, fmt.Errorf("nlgids: all empty")
 	}
+
 	if !strings.Contains(email, "@") {
 		return http.StatusBadRequest, fmt.Errorf("nlgids: invalid email")
 	}
+	if strings.Contains(email, " ") {
+		return http.StatusBadRequest, fmt.Errorf("nlgids: invalid email")
+	}
+
 	if persons != "" {
 		if _, err := strconv.Atoi(persons); err != nil {
 			return http.StatusBadRequest, err
