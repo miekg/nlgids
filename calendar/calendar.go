@@ -53,8 +53,7 @@ const templ = `
         </div>
 
 	<div class="col-md-6">
-		<strong lang="nl">{{.MonthNL}}</strong>
-		<strong lang="en">{{.MonthEN}}</strong>
+		<strong>{{.MonthNL}}</strong>
 	</div>
 
 	<div class="col-md-3">
@@ -104,8 +103,7 @@ func (c *Calendar) heading() string {
 	s := `<div class="row">
 <div class="col-md-10 col-md-offset-1">
 <table class="table table-bordered table-condensed">`
-	s += "<tr lang=\"en\"><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>\n"
-	s += "<tr lang=\"nl\"><th>zo</th><th>ma</th><th>di</th><th>wo</th><th>do</th><th>vr</th><th>za</th></tr>\n"
+	s += "<tr><th>zo</th><th>ma</th><th>di</th><th>wo</th><th>do</th><th>vr</th><th>za</th></tr>\n"
 	return s
 }
 
