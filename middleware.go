@@ -53,7 +53,7 @@ func setup(c *caddy.Controller) error {
 // secret /opt/etc/NLgids-fcbeb7928cdb.json
 func nlgidsParse(c *caddy.Controller) (*Config, error) {
 	config := new(Config)
-	config.Tours = "/opt/www/nlgids.london/tours.json"
+	config.Tours = "/var/www/nlgids.london/tours.json"
 	for c.Next() {
 		for c.NextBlock() {
 			switch c.Val() {
