@@ -7,7 +7,7 @@ import (
 	"github.com/miekg/nlgids/webcontact"
 )
 
-var templateDir = "/opt/tmpl/nlgids.london"
+var templateDir = "/etc/caddy/tmpl"
 
 func newContact() *webcontact.Contact {
 	return &webcontact.Contact{

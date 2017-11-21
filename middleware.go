@@ -23,16 +23,16 @@ func init() {
 // nlgids {
 //	   recipients ans@nlgids.london miek@miek.nl
 //	   subject ans@nlgids.london
-//	   secret /opt/etc/NLgids-fcbeb7928cdb.json
-//	   template /opt/tmpl/nlgids.london
-//	   tours /tours.json // site root?
+//	   secret /etc/caddy/NLgids-fcbeb7928cdb.json
+//	   template /etc/caddy/tmpl
+//	   tours /var/www/nlgids.london/tours.json
 // }
 type Config struct {
 	Recipients []string // Who gets nlgids email.
 	Subject    string   // Calendar auth subject.
 	Secret     string   // File containing the google service account secret.
 	Template   string   // Directory where the templates live.
-	Tours      string   // tours.json location, defaults to /opt/www/nlgids.london/tours.json
+	Tours      string   // tours.json location, defaults to /var/www/nlgids.london/tours.json
 }
 
 func setup(c *caddy.Controller) error {
@@ -50,7 +50,7 @@ func setup(c *caddy.Controller) error {
 // nlgidsParse will parse the following directives.
 // recipients ans@nlgids.london miek@miek.nl
 // subject ans@nlgids.london
-// secret /opt/etc/NLgids-fcbeb7928cdb.json
+// secret /etc/caddy/NLgids-fcbeb7928cdb.json
 func nlgidsParse(c *caddy.Controller) (*Config, error) {
 	config := new(Config)
 	config.Tours = "/var/www/nlgids.london/tours.json"
