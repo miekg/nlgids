@@ -46,21 +46,22 @@ const (
 const templ = `
     <div class="panel-heading text-center">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-1"> </div>
+
+	<div class="col-md-10">
             <a class="btn btn-default btn-sm" onclick='BookingCalendar({{.Prev}})'>
                 <span class="glyphicon glyphicon-arrow-left"></span>
             </a>
-        </div>
 
-	<div class="col-md-6">
-		<strong>{{.MonthNL}}</strong>
-	</div>
+		&nbsp;<strong>{{.MonthNL}}</strong>&nbsp;
 
-	<div class="col-md-3">
             <a class="btn btn-default btn-sm" onclick='BookingCalendar({{.Next}})'>
                 <span class="glyphicon glyphicon-arrow-right"></span>
             </a>
-        </div>
+
+	</div>
+
+	<div class="col-md-1"> </div>
     </div>
 </div>
 `
