@@ -11,7 +11,7 @@ import (
 )
 
 // subject = "miek@miek.nl" // ans@nlgids.london
-// secret  = "/opt/etc/NLgids-fcbeb7928cdb.json"
+// secret  = "/etc/caddy/NLgids-fcbeb7928cdb.json"
 
 func client(subject, secret string) (*http.Client, error) {
 	b, err := ioutil.ReadFile(secret)

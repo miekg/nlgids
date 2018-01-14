@@ -10,9 +10,9 @@ http://localhost:2015 {
     nlgids {
         recipients ans@nlgids.london miek@miek.nl
         subject ans@nlgids.london
-        secret /home/miek/adm/NLgids-fcbeb7928cdb.json
-        template /opt/tmpl/nlgids.london
-        tours /opt/www/nlgids.london/tours.json
+        secret /etc/caddy/NLgids-fcbeb7928cdb.json
+        template /etc/caddy/tmpl
+        tours /var/www/nlgids.london/tours.json
     }
 
     internal /include
