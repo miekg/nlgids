@@ -1,0 +1,25 @@
+diff --git a/caddy/caddymain/run.go b/caddy/caddymain/run.go
+index 81f97f2..3779ded 100644
+--- a/caddy/caddymain/run.go
++++ b/caddy/caddymain/run.go
+@@ -35,6 +35,8 @@ import (
+ 
+ 	"github.com/mholt/caddy/caddytls"
+ 	// This is where other plugins get plugged in (imported)
++	_ "github.com/miekg/caddy-prometheus"
++	_ "github.com/miekg/nlgids"
+ )
+ 
+ func init() {
+diff --git a/caddyhttp/httpserver/plugin.go b/caddyhttp/httpserver/plugin.go
+index 643eea7..f72cf8c 100644
+--- a/caddyhttp/httpserver/plugin.go
++++ b/caddyhttp/httpserver/plugin.go
+@@ -519,6 +519,7 @@ var directives = []string{
+ 	"grpc",      // github.com/pieterlouw/caddy-grpc
+ 	"gopkg",     // github.com/zikes/gopkg
+ 	"restic",    // github.com/restic/caddy
++	"nlgids",    // github.com/miekg/nlgids
+ }
+ 
+ const (
