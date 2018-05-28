@@ -13,7 +13,7 @@ type InvoiceMail struct {
 
 const templ = `Hallo Ans,
 
-Dit is het reserverings formulier voor "{{.Name}}". Met kenmerk ""{{.Kenmerk}}".
+Dit is het reserverings formulier voor "{{.Name}}". Met kenmerk "{{.Kenmerk}}".
 
 Met vriendelijke groet,
     NLgids mailer
