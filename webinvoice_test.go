@@ -19,10 +19,10 @@ func newInvoice() *webinvoice.Invoice {
 	i := &webinvoice.Invoice{
 		Tour:     "walks/koninklijke",
 		Persons:  2,
-		Time:     "11.00",
+		Time:     "11:00",
 		Duration: "2.0",
 		Cost:     50.0,
-		Date:     "2015/12/10",
+		Date:     "2015-12-10",
 		Name:     "Christel",
 		FullName: "Christel Achternaam",
 		Email:    "christel_bla@miek.nl",

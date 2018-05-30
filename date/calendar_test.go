@@ -6,7 +6,7 @@ import (
 )
 
 func TestTimeToUTC(t *testing.T) {
-	t1, _, err := TimeToUTC("2018/07/06", "9.45")
+	t1, _, err := TimeToUTC("2018-07-06", "9:45")
 
 	if err != nil {
 		t.Errorf("Failed to convert times: %s", err)
