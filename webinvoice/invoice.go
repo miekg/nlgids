@@ -30,6 +30,9 @@ type Invoice struct {
 
 	Rate float64 // current GBP:EUR rate, autofill
 	Day  string  // autofill
+
+	OrigDate string // original values of Time and Data (before we converted to NL).
+	OrigTime string
 }
 
 // escapeTeX escapes TeX control characters. Currently: &, \ and %.
@@ -52,6 +55,8 @@ func (i *Invoice) escapeTex() {
 // FillOut fills in these missing fields in i, such as:
 // Rate, Day, Filename and makes Date Dutch.
 func (i *Invoice) FillOut() (err error) {
+	i.OrigDate = i.Date
+	i.OrigTime = i.Time
 	if i.Rate, err = ecb.RateGBP(); err != nil {
 		return err
 	}

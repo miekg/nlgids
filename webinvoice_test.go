@@ -7,6 +7,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/miekg/nlgids/date"
 	"github.com/miekg/nlgids/email"
 	"github.com/miekg/nlgids/tour"
 	"github.com/miekg/nlgids/webinvoice"
@@ -18,10 +19,10 @@ func newInvoice() *webinvoice.Invoice {
 	i := &webinvoice.Invoice{
 		Tour:     "walks/koninklijke",
 		Persons:  2,
-		Time:     "11.00",
+		Time:     "11:00",
 		Duration: "2.0",
 		Cost:     50.0,
-		Date:     "2015/12/10",
+		Date:     "2015-12-10",
 		Name:     "Christel",
 		FullName: "Christel Achternaam",
 		Email:    "christel_bla@miek.nl",
@@ -93,4 +94,14 @@ func TestInvoiceCreate(t *testing.T) {
 	if len(mail.Attachments) != 1 {
 		t.Fatal("wrong email attachment number")
 	}
+}
+
+func TestInvoiceCalendarLink(t *testing.T) {
+	i := newInvoice()
+	t1, t2, err := date.TimeToUTC(i.Date, i.Time)
+	if err != nil {
+		t.Fatalf("Failed to create times: %s", err)
+	}
+	link := i.CalendarLink(t1, t2)
+	t.Logf("%s", link)
 }
