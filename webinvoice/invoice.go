@@ -50,6 +50,12 @@ func (i *Invoice) escapeTex() {
 	i.Tour = escapeTeX(i.Tour)
 	i.Where = escapeTeX(i.Where)
 	i.How = escapeTeX(i.How)
+
+	i.Name = strings.TrimSpace(i.Name)
+	i.FullName = strings.TrimSpace(i.FullName)
+	i.Tour = strings.TrimSpace(i.Tour)
+	i.Where = strings.TrimSpace(i.Where)
+	i.How = strings.TrimSpace(i.How)
 }
 
 // FillOut fills in these missing fields in i, such as:
