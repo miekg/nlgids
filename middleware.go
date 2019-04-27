@@ -114,6 +114,8 @@ func (n *NLgids) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) 
 	switch {
 	case path.Matches("/api/auth/invoice"):
 		return n.WebInvoice(w, r)
+	case path.Matches("/api/auth/conform"):
+		return n.WebConform(w, r)
 	case path.Matches("/api/open/contact"):
 		return n.WebContact(w, r)
 	case path.Matches("/api/open/booking"):

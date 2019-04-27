@@ -9,7 +9,7 @@ import (
 	"text/template"
 )
 
-const Template = "invoice.tex.tmpl"
+const Template = "conform.tex.tmpl"
 
 var funcMap = template.FuncMap{
 	"divide": Divide,
