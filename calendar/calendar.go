@@ -82,10 +82,12 @@ func Date(t time.Time) string {
 // day is indexed by the 12 o' clock night time as a time.Time.
 // All date are in the UTC timezone.
 type Calendar struct {
-	days  map[time.Time]AvailMeta
-	begin time.Time
-	end   time.Time
-	start time.Time // generated for this date
+	days     map[time.Time]AvailMeta
+	begin    time.Time
+	end      time.Time
+	start    time.Time // generated for this date
+	tourType string    // calendar for a specific tour
+	id       string
 
 	subject string // who's calendar
 	secret  string // service account client_secret.json
