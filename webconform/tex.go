@@ -12,10 +12,14 @@ import (
 const Template = "conform.tex.tmpl"
 
 var funcMap = template.FuncMap{
-	"divide": Divide,
+	"divide":          Divide,
+	"euro":            Euro,
+	"divideTimesRate": DivideTimesRate,
 }
 
-func Divide(a float64, b int) float64 { return a / float64(b) }
+func Euro(a, rate float64) float64               { return a * rate }
+func DivideTimesRate(a, b, rate float64) float64 { return a / b * rate }
+func Divide(a float64, b int) float64            { return a / float64(b) }
 
 // Create parses the templates and runs pdflatex on the resulting tex file. It returns generated PDF.
 func (c *Conform) Create(tmplDir, tmpl string) ([]byte, error) {
