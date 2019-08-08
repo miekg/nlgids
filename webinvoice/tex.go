@@ -12,14 +12,19 @@ import (
 const Template = "invoice.tex.tmpl"
 
 var funcMap = template.FuncMap{
-	"half":          Half,
-	"halfTimesRate": HalfTimesRate,
-	"euro":          Euro,
+	"half":            Half,
+	"halfTimesRate":   HalfTimesRate,
+	"euro":            Euro,
+	"divide":          Divide,
+	"divideTimesRate": DivideTimesRate,
 }
 
 func Half(a float64) float64                { return a / 2 }
 func HalfTimesRate(a, rate float64) float64 { return a / 2 * rate }
 func Euro(a, rate float64) float64          { return a * rate }
+
+func Divide(a, b float64) float64                { return a / b }
+func DivideTimesRate(a, b, rate float64) float64 { return a / b * rate }
 
 // Create parses the templates and runs pdflatex on the resulting tex file. It returns generated PDF.
 func (i *Invoice) Create(tmplDir, tmpl string) ([]byte, error) {
