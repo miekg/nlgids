@@ -1,11 +1,23 @@
 diff --git a/caddyhttp/caddyhttp.go b/caddyhttp/caddyhttp.go
-index 7ca8b874..c5d25837 100644
+index 7ca8b874..bdccac0d 100644
 --- a/caddyhttp/caddyhttp.go
 +++ b/caddyhttp/caddyhttp.go
-@@ -46,4 +46,6 @@ import (
+@@ -46,4 +46,7 @@ import (
  	_ "github.com/caddyserver/caddy/caddyhttp/timeouts"
  	_ "github.com/caddyserver/caddy/caddyhttp/websocket"
  	_ "github.com/caddyserver/caddy/onevent"
 +
++	_ "github.com/miekg/dreck"
 +	_ "github.com/miekg/nlgids"
  )
+diff --git a/caddyhttp/httpserver/plugin.go b/caddyhttp/httpserver/plugin.go
+index 19e814d7..f203dc1d 100644
+--- a/caddyhttp/httpserver/plugin.go
++++ b/caddyhttp/httpserver/plugin.go
+@@ -700,6 +700,8 @@ var directives = []string{
+ 	"restic",    // github.com/restic/caddy
+ 	"wkd",       // github.com/emersion/caddy-wkd
+ 	"dyndns",    // github.com/linkonoid/caddy-dyndns
++	"nlgids",
++	"dreck",
+ }
