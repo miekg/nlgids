@@ -12,11 +12,13 @@ import (
 const Template = "conform.tex.tmpl"
 
 var funcMap = template.FuncMap{
+	"half":            Half,
 	"divide":          Divide,
 	"euro":            Euro,
 	"divideTimesRate": DivideTimesRate,
 }
 
+func Half(a float64) float64                     { return a / 2 }
 func Euro(a, rate float64) float64               { return a * rate }
 func DivideTimesRate(a, b, rate float64) float64 { return a / b * rate }
 func Divide(a float64, b int) float64            { return a / float64(b) }
