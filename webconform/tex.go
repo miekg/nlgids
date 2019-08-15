@@ -14,6 +14,7 @@ const Template = "conform.tex.tmpl"
 var funcMap = template.FuncMap{
 	"half":            Half,
 	"divide":          Divide,
+	"divideFloat":     DivideFloat,
 	"euro":            Euro,
 	"divideTimesRate": DivideTimesRate,
 }
