@@ -14,6 +14,8 @@ import (
 type Conform struct {
 	FileName string // Name of the generated PDF.
 
+	Kenmerk string // Unique kenmerk of this invoice.
+
 	Tour     string
 	Persons  int
 	Time     string

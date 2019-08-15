@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"path"
 	"strconv"
+	"time"
 
 	"github.com/miekg/nlgids/email"
 	ntour "github.com/miekg/nlgids/tour"
@@ -52,6 +53,7 @@ func (n *NLgids) WebConform(w http.ResponseWriter, r *http.Request) (int, error)
 		Email:    email,
 		Where:    where,
 		How:      how,
+		Kenmerk:  webconform.Kenmerk(time.Now().UTC()),
 	}
 
 	tmpl := path.Join(n.Config.Template, webconform.Template)

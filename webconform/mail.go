@@ -7,12 +7,13 @@ import (
 
 // ConformMail is a customer conform form.
 type ConformMail struct {
-	Name string
+	Name    string
+	Kenmerk string
 }
 
 const templ = `Hallo Ans,
 
-Dit is het bevestigings formulier voor "{{.Name}}".
+Dit is het bevestigings formulier voor "{{.Name}}". Met kenmerk "{{.Kenmerk}}".
 
 Met vriendelijke groet,
     NLgids mailer
@@ -25,7 +26,7 @@ func (c *Conform) MailBody() (*bytes.Buffer, error) {
 		return nil, err
 	}
 
-	cm := &ConformMail{Name: c.FullName}
+	cm := &ConformMail{Name: c.FullName, Kenmerk: c.Kenmerk}
 	buf := &bytes.Buffer{}
 	if err := t.Execute(buf, cm); err != nil {
 		return nil, err
@@ -34,6 +35,6 @@ func (c *Conform) MailBody() (*bytes.Buffer, error) {
 }
 
 func (c *Conform) MailSubject() string {
-	subject := "Bevestiging: \"" + c.FullName + "\""
+	subject := "Bevestiging (" + c.Kenmerk + "): \"" + c.FullName + "\""
 	return subject
 }
