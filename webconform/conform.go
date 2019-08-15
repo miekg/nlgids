@@ -7,6 +7,7 @@ import (
 	"text/template"
 
 	"github.com/miekg/nlgids/date"
+	"github.com/miekg/nlgids/ecb"
 )
 
 // Conform holds all the data we need to generate a conform
@@ -18,7 +19,8 @@ type Conform struct {
 	Time     string
 	Duration string // 2:00
 	Cost     float64
-	Date     string // YYYY/MM/DD form
+	Rate     float64 // current GBP:EUR rate, autofill
+	Date     string  // YYYY/MM/DD form
 	Name     string
 	FullName string
 	Email    string // Has become optional.
@@ -60,6 +62,9 @@ func (c *Conform) FillOut() (err error) {
 		return err
 	}
 	if c.Date, err = date.NL("--date", c.Date, "+%d %B %Y"); err != nil {
+		return err
+	}
+	if c.Rate, err = ecb.RateGBP(); err != nil {
 		return err
 	}
 	return
