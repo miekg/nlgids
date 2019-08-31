@@ -40,6 +40,10 @@ func (n *NLgids) WebBooking(w http.ResponseWriter, r *http.Request) (int, error)
 
 	tour = ntour.NameOrNonExists(tour, n.Config.Tours)
 
+	if date == "" {
+		date = "n.v.t."
+	}
+
 	booking := &webbooking.Booking{
 		Tour:    tour,
 		Date:    date,
