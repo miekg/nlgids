@@ -20,10 +20,13 @@ func (n *NLgids) WebTocht(w http.ResponseWriter, r *http.Request) (int, error) {
 	name, fullname := r.PostFormValue("name"), r.PostFormValue("fullname")
 	email := r.PostFormValue("email")
 	date := r.PostFormValue("date")
+	log.Println("WEB TOCH called")
 
 	if date == "" || tour == "" || costStr == "" || name == "" || fullname == "" {
 		return http.StatusBadRequest, fmt.Errorf("nlgids: all empty")
 	}
+
+	log.Printf("RECEIVED", tour, costStr)
 
 	cost, err := strconv.ParseFloat(costStr, 64)
 	if err != nil {
@@ -51,9 +54,11 @@ func (n *NLgids) WebTocht(w http.ResponseWriter, r *http.Request) (int, error) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
+	fmt.Println("TOCH CREATED")
 	if len(pdf) == 0 {
 		return http.StatusInternalServerError, err
 	}
+	fmt.Printf("SENNDING %d", len(pdf))
 	return sendTocht(tocht, pdf, n.Config.Recipients)
 }
 
