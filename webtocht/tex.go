@@ -12,18 +12,10 @@ import (
 const Template = "magic.tex.tmpl"
 
 var funcMap = template.FuncMap{
-	"half":            Half,
-	"divide":          Divide,
-	"divideFloat":     DivideFloat,
-	"euro":            Euro,
-	"divideTimesRate": DivideTimesRate,
+	"euro": Euro,
 }
 
-func Half(a float64) float64                     { return a / 2 }
-func Euro(a, rate float64) float64               { return a * rate }
-func DivideTimesRate(a, b, rate float64) float64 { return a / b * rate }
-func Divide(a float64, b int) float64            { return a / float64(b) }
-func DivideFloat(a, b float64) float64           { return a / b }
+func Euro(a, rate float64) float64 { return a * rate }
 
 // Create parses the templates and runs pdflatex on the resulting tex file. It returns generated PDF.
 func (t *Tocht) Create(tmplDir, tmpl string) ([]byte, error) {
