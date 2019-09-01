@@ -54,6 +54,12 @@ func NewConform(subject string, body *bytes.Buffer, pdfName string, pdf []byte) 
 	return m
 }
 
+func NewTocht(subject string, body *bytes.Buffer, pdfName string, pdf []byte) *Message {
+	m := NewMessage(nlgidsPrefix+subject, body.String())
+	m.AttachBytes(pdfName, pdf)
+	return m
+}
+
 // Do sends an email message using the default to and from.
 func (m *Message) Do(rcpts []string) error {
 	m.From = from

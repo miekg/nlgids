@@ -116,6 +116,8 @@ func (n *NLgids) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error) 
 		return n.WebInvoice(w, r)
 	case path.Matches("/api/auth/conform"):
 		return n.WebConform(w, r)
+	case path.Matches("/api/auth/magic"):
+		return n.WebTocht(w, r)
 	case path.Matches("/api/open/contact"):
 		return n.WebContact(w, r)
 	case path.Matches("/api/open/booking"):
